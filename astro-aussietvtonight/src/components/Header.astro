@@ -1,0 +1,181 @@
+---
+/**
+ * Header component for Aussie TV Tonight
+ * Includes Navigation + Real-time Australian City/Timezone selector
+ */
+import { AUSTRALIAN_CITIES, DEFAULT_CITY } from '../utils/timeSlots';
+
+const currentPath = Astro.url.pathname;
+const isTonight = currentPath === '/' || currentPath === '/tonight/';
+const isOnNow = currentPath === '/on-now/';
+const isMovies = currentPath === '/movies-tonight/';
+const isTomorrow = currentPath === '/tomorrow/';
+---
+
+<header class="sticky top-0 z-40 bg-slate-900/95 backdrop-blur border-b border-slate-800">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+      
+      <!-- Brand Logo / Title -->
+      <div class="flex items-center gap-3">
+        <a href="/" class="flex items-center gap-2 group">
+          <span class="text-2xl">🇦🇺</span>
+          <div class="flex flex-col">
+            <span class="text-xl font-bold tracking-tight text-white group-hover:text-amber-400 transition-colors">
+              Aussie TV <span class="text-amber-400">Tonight</span>
+            </span>
+            <span class="text-[10px] text-slate-400 uppercase tracking-widest font-semibold">Freeview Australia</span>
+          </div>
+        </a>
+      </div>
+
+      <!-- Navigation Links -->
+      <nav class="hidden md:flex items-center gap-1 font-medium text-sm">
+        <a 
+          href="/" 
+          class={`px-3 py-2 rounded-lg transition-colors ${
+            isTonight 
+              ? 'bg-amber-400 text-slate-950 font-bold shadow-sm' 
+              : 'text-slate-300 hover:text-white hover:bg-slate-800'
+          }`}
+        >
+          🌙 Tonight (7:30 PM)
+        </a>
+
+        <a 
+          href="/on-now/" 
+          class={`px-3 py-2 rounded-lg transition-colors flex items-center gap-1.5 ${
+            isOnNow 
+              ? 'bg-amber-400 text-slate-950 font-bold shadow-sm' 
+              : 'text-slate-300 hover:text-white hover:bg-slate-800'
+          }`}
+        >
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          On Now
+        </a>
+
+        <a 
+          href="/movies-tonight/" 
+          class={`px-3 py-2 rounded-lg transition-colors ${
+            isMovies 
+              ? 'bg-amber-400 text-slate-950 font-bold shadow-sm' 
+              : 'text-slate-300 hover:text-white hover:bg-slate-800'
+          }`}
+        >
+          🍿 Movies Tonight
+        </a>
+
+        <a 
+          href="/tomorrow/" 
+          class={`px-3 py-2 rounded-lg transition-colors ${
+            isTomorrow 
+              ? 'bg-amber-400 text-slate-950 font-bold shadow-sm' 
+              : 'text-slate-300 hover:text-white hover:bg-slate-800'
+          }`}
+        >
+          📅 Tomorrow
+        </a>
+      </nav>
+
+      <!-- Timezone / City Selector -->
+      <div class="flex items-center gap-2">
+        <label for="city-selector" class="hidden sm:inline-block text-xs font-medium text-slate-400">
+          📍 City:
+        </label>
+        <select 
+          id="city-selector" 
+          class="bg-slate-800 text-slate-200 text-xs font-semibold rounded-lg px-2.5 py-1.5 border border-slate-700 hover:border-slate-600 focus:outline-none focus:ring-2 focus:ring-amber-400 cursor-pointer"
+          aria-label="Select Australian City Timezone"
+        >
+          <option value="sydney">Sydney / Melbourne (AEDT)</option>
+          <option value="brisbane">Brisbane (AEST)</option>
+          <option value="adelaide">Adelaide (ACDT)</option>
+          <option value="perth">Perth (AWST)</option>
+        </select>
+      </div>
+
+    </div>
+
+    <!-- Mobile Sub-Navigation -->
+    <div class="flex md:hidden items-center justify-around py-2.5 border-t border-slate-800/80 text-xs font-medium">
+      <a 
+        href="/" 
+        class={`px-2.5 py-1.5 rounded-md ${isTonight ? 'bg-amber-400 text-slate-950 font-bold' : 'text-slate-300'}`}
+      >
+        🌙 Tonight
+      </a>
+      <a 
+        href="/on-now/" 
+        class={`px-2.5 py-1.5 rounded-md flex items-center gap-1 ${isOnNow ? 'bg-amber-400 text-slate-950 font-bold' : 'text-slate-300'}`}
+      >
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+        On Now
+      </a>
+      <a 
+        href="/movies-tonight/" 
+        class={`px-2.5 py-1.5 rounded-md ${isMovies ? 'bg-amber-400 text-slate-950 font-bold' : 'text-slate-300'}`}
+      >
+        🍿 Movies
+      </a>
+      <a 
+        href="/tomorrow/" 
+        class={`px-2.5 py-1.5 rounded-md ${isTomorrow ? 'bg-amber-400 text-slate-950 font-bold' : 'text-slate-300'}`}
+      >
+        📅 Tomorrow
+      </a>
+    </div>
+
+  </div>
+</header>
+
+<script is:inline>
+  // Australian Timezone Switcher with zero-cookie localStorage persistence
+  (function() {
+    const selector = document.getElementById('city-selector');
+    if (!selector) return;
+
+    const savedCity = localStorage.getItem('aussie_city') || 'sydney';
+    selector.value = savedCity;
+
+    selector.addEventListener('change', function(e) {
+      const city = e.target.value;
+      localStorage.setItem('aussie_city', city);
+      // Dispatch custom event so time labels update instantly without full page reload
+      window.dispatchEvent(new CustomEvent('cityChanged', { detail: { city } }));
+      updateAllProgramTimes(city);
+    });
+
+    const TIMEZONE_MAP = {
+      'sydney': 'Australia/Sydney',
+      'melbourne': 'Australia/Melbourne',
+      'brisbane': 'Australia/Brisbane',
+      'adelaide': 'Australia/Adelaide',
+      'perth': 'Australia/Perth'
+    };
+
+    function updateAllProgramTimes(cityKey) {
+      const tz = TIMEZONE_MAP[cityKey] || 'Australia/Sydney';
+      const timeElements = document.querySelectorAll('[data-utc-start]');
+      
+      timeElements.forEach(el => {
+        const utcIso = el.getAttribute('data-utc-start');
+        if (!utcIso) return;
+        try {
+          const d = new Date(utcIso);
+          const timeFormatted = new Intl.DateTimeFormat('en-AU', {
+            timeZone: tz,
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false
+          }).format(d);
+          el.textContent = timeFormatted;
+        } catch(err) {}
+      });
+    }
+
+    // Apply on load
+    document.addEventListener('DOMContentLoaded', () => {
+      updateAllProgramTimes(savedCity);
+    });
+  })();
+</script>

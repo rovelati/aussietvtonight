@@ -1,0 +1,62 @@
+---
+/**
+ * Footer component for Aussie TV Tonight
+ */
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="bg-slate-950 border-t border-slate-800 text-slate-400 py-12">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+      
+      <!-- Brand & Mission -->
+      <div class="md:col-span-2">
+        <div class="flex items-center gap-2 mb-3">
+          <span class="text-2xl">🇦🇺</span>
+          <span class="text-lg font-bold text-white tracking-tight">
+            Aussie TV <span class="text-amber-400">Tonight</span>
+          </span>
+        </div>
+        <p class="text-sm text-slate-400 leading-relaxed max-w-md mb-4">
+          Australia's fastest Freeview TV guide. Find out what's on TV tonight across Sydney, Melbourne, Brisbane, Adelaide, and Perth with zero lag, instant Prime Time schedules, and real-time listings.
+        </p>
+        <p class="text-xs text-slate-500">
+          Covering Seven, Channel 9, 10, ABC TV, SBS, and all digital multi-channels.
+        </p>
+      </div>
+
+      <!-- Quick Links -->
+      <div>
+        <h4 class="text-xs font-bold uppercase tracking-wider text-slate-300 mb-3">TV Guide Tonight</h4>
+        <ul class="space-y-2 text-sm">
+          <li><a href="/" class="hover:text-amber-400 transition-colors">🌙 Tonight on TV (7:30 PM)</a></li>
+          <li><a href="/on-now/" class="hover:text-amber-400 transition-colors">🔴 What's on TV Right Now</a></li>
+          <li><a href="/movies-tonight/" class="hover:text-amber-400 transition-colors">🍿 Movies on TV Tonight</a></li>
+          <li><a href="/tomorrow/" class="hover:text-amber-400 transition-colors">📅 Tomorrow's TV Guide</a></li>
+        </ul>
+      </div>
+
+      <!-- Networks & Information -->
+      <div>
+        <h4 class="text-xs font-bold uppercase tracking-wider text-slate-300 mb-3">Networks & Freeview</h4>
+        <ul class="space-y-2 text-sm">
+          <li><a href="/seven/" class="hover:text-amber-400 transition-colors">Channel 7 (Seven)</a></li>
+          <li><a href="/channel-9/" class="hover:text-amber-400 transition-colors">Channel 9 (Nine)</a></li>
+          <li><a href="/10/" class="hover:text-amber-400 transition-colors">Network 10</a></li>
+          <li><a href="/abc-tv/" class="hover:text-amber-400 transition-colors">ABC TV</a></li>
+          <li><a href="/sbs/" class="hover:text-amber-400 transition-colors">SBS Australia</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="pt-8 border-t border-slate-850 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
+      <p>© {currentYear} aussietvtonight.com — All rights reserved.</p>
+      <div class="flex items-center gap-6">
+        <a href="/privacy/" class="hover:text-slate-400 transition-colors">Privacy Policy</a>
+        <a href="/terms/" class="hover:text-slate-400 transition-colors">Terms of Service</a>
+      </div>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,185 @@
+---
+/**
+ * On Now — Real-time Australian TV Guide
+ * Shows currently broadcasting shows with live progress bar.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ProgramOverlay from '../components/ProgramOverlay.astro';
+import { fetchChannels, fetchProgramsForDate } from '../lib/epg';
+import { getTodayInAustralia, formatDateAU, formatTimeAU } from '../utils/timeSlots';
+import { normCid } from '../utils/channelSlug';
+import { MAJOR_AU_ORDER, filterRealPrograms } from '../utils/channelFilters';
+import type { Channel, Program } from '../types';
+
+const today = getTodayInAustralia();
+const dateLabel = formatDateAU(today);
+
+interface OnNowListing {
+  currentProgram: Program;
+  nextProgram?: Program;
+  channel: Channel;
+  slug: string;
+}
+
+let onNowItems: OnNowListing[] = [];
+
+try {
+  const [channels, allPrograms] = await Promise.all([
+    fetchChannels(),
+    fetchProgramsForDate(today),
+  ]);
+
+  const programsByChannel = new Map<string, Program[]>();
+  for (const prog of allPrograms) {
+    const key = normCid(prog.channel_id ?? '');
+    if (!programsByChannel.has(key)) programsByChannel.set(key, []);
+    programsByChannel.get(key)!.push(prog);
+  }
+
+  const nowMs = Date.now();
+
+  for (const ch of channels) {
+    const slug = normCid(ch.id);
+    const chPrograms = filterRealPrograms(programsByChannel.get(slug) ?? []);
+    if (chPrograms.length === 0) continue;
+
+    chPrograms.sort((a, b) => new Date(a.start_time).getTime() - new Date(b.start_time).getTime());
+
+    // Find program currently on air
+    let currentIdx = chPrograms.findIndex(p => {
+      const s = new Date(p.start_time).getTime();
+      const e = new Date(p.end_time).getTime();
+      return nowMs >= s && nowMs < e;
+    });
+
+    if (currentIdx === -1) {
+      // Fallback: pick the closest upcoming program
+      currentIdx = chPrograms.findIndex(p => new Date(p.start_time).getTime() >= nowMs);
+      if (currentIdx === -1) currentIdx = chPrograms.length - 1;
+    }
+
+    const currentProgram = chPrograms[currentIdx];
+    const nextProgram = chPrograms[currentIdx + 1];
+
+    if (currentProgram) {
+      onNowItems.push({
+        currentProgram,
+        nextProgram,
+        channel: ch,
+        slug,
+      });
+    }
+  }
+
+  onNowItems.sort((a, b) => {
+    const ai = MAJOR_AU_ORDER.indexOf(a.slug);
+    const bi = MAJOR_AU_ORDER.indexOf(b.slug);
+    if (ai === -1 && bi === -1) return (a.channel.number || 99) - (b.channel.number || 99);
+    if (ai === -1) return 1;
+    if (bi === -1) return -1;
+    return ai - bi;
+  });
+} catch (err) {
+  console.error('[on-now.astro] Error rendering On Now:', err);
+}
+
+const pageTitle = "What's on TV Right Now in Australia | Live TV Guide";
+const pageDesc = "Live TV guide for Australia. See what is currently airing on Seven, Nine, 10, ABC, SBS, and digital multi-channels right now with real-time schedules.";
+---
+
+<BaseLayout title={pageTitle} description={pageDesc}>
+  <Header />
+
+  <main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+    <div class="mb-8 border-b border-slate-800 pb-6">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-400/10 border border-emerald-400/20 text-emerald-400 text-xs font-semibold mb-3">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span>Live Broadcasting</span>
+        <span>•</span>
+        <span>{dateLabel}</span>
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+        What's on TV <span class="text-emerald-400">Right Now</span> in Australia
+      </h1>
+      <p class="text-base text-slate-400 mt-2 max-w-2xl">
+        Real-time TV schedules across Australian Freeview networks. Check live progress and what's coming up next.
+      </p>
+    </div>
+
+    <!-- Live Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {onNowItems.map(({ currentProgram, nextProgram, channel, slug }) => {
+        const startFormatted = formatTimeAU(currentProgram.start_time);
+        const endFormatted = formatTimeAU(currentProgram.end_time);
+
+        return (
+          <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-slate-700 transition-all duration-200 shadow-lg flex flex-col justify-between">
+            <div>
+              <!-- Channel bar -->
+              <div class="px-4 py-3 bg-slate-850/80 border-b border-slate-800 flex items-center justify-between">
+                <a href={`/${slug}/`} class="flex items-center gap-3">
+                  <div class="w-10 h-8 bg-slate-800 rounded p-1 flex items-center justify-center">
+                    <img src={channel.logo} alt={channel.name} class="max-w-full max-h-full object-contain" />
+                  </div>
+                  <span class="font-bold text-white text-sm">{channel.name}</span>
+                </a>
+                <span class="text-xs px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-bold flex items-center gap-1">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                  LIVE
+                </span>
+              </div>
+
+              <!-- Currently On Air -->
+              <div 
+                class="p-4 cursor-pointer hover:bg-slate-800/40 transition-colors"
+                data-program-id={currentProgram.id}
+                data-title={currentProgram.title}
+                data-desc={currentProgram.description}
+                data-category={currentProgram.category}
+                data-start={currentProgram.start_time}
+                data-end={currentProgram.end_time}
+                data-rating={currentProgram.rating}
+                data-image={currentProgram.image_url}
+                data-channel-name={channel.name}
+                data-channel-logo={channel.logo}
+                onclick="openProgramModal(this)"
+              >
+                <div class="flex items-center justify-between text-xs text-slate-400 mb-1">
+                  <span data-utc-start={currentProgram.start_time}>{startFormatted} - {endFormatted}</span>
+                  {currentProgram.rating && (
+                    <span class="px-1.5 py-0.5 bg-slate-800 rounded text-slate-300 font-semibold text-[10px]">
+                      {currentProgram.rating}
+                    </span>
+                  )}
+                </div>
+
+                <h3 class="text-base font-bold text-white mb-1 hover:text-amber-400 transition-colors">
+                  {currentProgram.title}
+                </h3>
+
+                <p class="text-xs text-slate-400 line-clamp-2 leading-relaxed">
+                  {currentProgram.description || 'Live broadcast.'}
+                </p>
+              </div>
+            </div>
+
+            <!-- Up Next -->
+            {nextProgram && (
+              <div class="px-4 py-3 bg-slate-950/60 border-t border-slate-800/80 text-xs text-slate-400 flex items-center justify-between">
+                <span class="font-semibold text-slate-500 uppercase tracking-wider text-[10px]">UP NEXT</span>
+                <span class="font-medium text-slate-300 truncate max-w-[200px]">
+                  {nextProgram.title} ({formatTimeAU(nextProgram.start_time)})
+                </span>
+              </div>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  </main>
+
+  <ProgramOverlay />
+  <Footer />
+</BaseLayout>

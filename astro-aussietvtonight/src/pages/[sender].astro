@@ -1,0 +1,168 @@
+---
+/**
+ * Channel Hub Page — Aussie TV Tonight
+ * e.g. /seven/, /channel-9/, /10/, /abc-tv/, /sbs/
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ProgramOverlay from '../components/ProgramOverlay.astro';
+import BookmarkButton from '../components/BookmarkButton.astro';
+import { fetchChannels, fetchProgramsForDate } from '../lib/epg';
+import { getTodayInAustralia, formatDateAU, formatTimeAU } from '../utils/timeSlots';
+import { normCid } from '../utils/channelSlug';
+import { filterRealPrograms } from '../utils/channelFilters';
+import type { Channel, Program } from '../types';
+
+export async function getStaticPaths() {
+  const channels = await fetchChannels();
+  return channels.map(ch => ({
+    params: { sender: normCid(ch.id) },
+    props: { channel: ch },
+  }));
+}
+
+const { channel } = Astro.props as { channel: Channel };
+const { sender } = Astro.params;
+
+const today = getTodayInAustralia();
+const dateLabel = formatDateAU(today);
+
+let programs: Program[] = [];
+try {
+  const allPrograms = await fetchProgramsForDate(today);
+  programs = filterRealPrograms(
+    allPrograms.filter(p => normCid(p.channel_id ?? '') === sender)
+  ).sort((a, b) => new Date(a.start_time).getTime() - new Date(b.start_time).getTime());
+} catch (err) {
+  console.error(`[sender.astro] Error loading programs for ${sender}:`, err);
+}
+
+const pageTitle = `${channel.name} TV Guide Tonight | Schedule & Programs Australia`;
+const pageDesc = `Complete TV guide for ${channel.name} today (${dateLabel}). See full schedule, prime time shows starting at 7:30 PM, movies, and current affairs on Freeview.`;
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BroadcastService",
+  "name": channel.name,
+  "url": `https://aussietvtonight.com/${sender}/`,
+  "broadcastDisplayName": channel.name,
+  "inLanguage": "en-AU"
+};
+---
+
+<BaseLayout title={pageTitle} description={pageDesc} jsonLd={jsonLd}>
+  <Header />
+
+  <main class="flex-1 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+    <!-- Channel Header Banner -->
+    <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 mb-8 shadow-xl flex flex-col sm:flex-row items-center sm:items-start justify-between gap-6">
+      <div class="flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left">
+        <div class="w-24 h-20 bg-slate-800/80 rounded-2xl p-3 flex items-center justify-center border border-slate-700/60 shadow-inner">
+          <img 
+            src={channel.logo} 
+            alt={`${channel.name} logo`} 
+            class="max-w-full max-h-full object-contain"
+          />
+        </div>
+        <div>
+          <div class="flex items-center justify-center sm:justify-start gap-2 mb-2">
+            <h1 class="text-3xl font-extrabold text-white">
+              {channel.name}
+            </h1>
+            {channel.number > 0 && (
+              <span class="text-xs font-bold px-2.5 py-1 bg-amber-400 text-slate-950 rounded-lg">
+                Ch {channel.number}
+              </span>
+            )}
+          </div>
+          <p class="text-sm text-slate-400">
+            Freeview Australia • Schedule for {dateLabel}
+          </p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <BookmarkButton channelSlug={sender as string} />
+      </div>
+    </div>
+
+    <!-- Schedule List -->
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-lg">
+      <div class="px-6 py-4 bg-slate-850/80 border-b border-slate-800 flex items-center justify-between">
+        <h2 class="text-base font-bold text-white">
+          Today's Schedule ({programs.length} Programs)
+        </h2>
+        <span class="text-xs text-slate-400 font-medium">Times shown in local AEDT</span>
+      </div>
+
+      <div class="divide-y divide-slate-800">
+        {programs.map((prog) => {
+          const startTime = formatTimeAU(prog.start_time);
+          const endTime = formatTimeAU(prog.end_time);
+
+          return (
+            <div 
+              class="p-5 hover:bg-slate-800/40 transition-colors cursor-pointer group flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
+              data-program-id={prog.id}
+              data-title={prog.title}
+              data-desc={prog.description}
+              data-category={prog.category}
+              data-start={prog.start_time}
+              data-end={prog.end_time}
+              data-rating={prog.rating}
+              data-image={prog.image_url}
+              data-channel-name={channel.name}
+              data-channel-logo={channel.logo}
+              onclick="openProgramModal(this)"
+            >
+              <div class="flex items-start gap-4 flex-1">
+                <div class="text-center min-w-[70px]">
+                  <span 
+                    class="text-sm font-bold font-mono px-2 py-1 rounded bg-slate-800 text-amber-400 inline-block"
+                    data-utc-start={prog.start_time}
+                  >
+                    {startTime}
+                  </span>
+                  <span class="block text-[11px] text-slate-500 mt-1">{endTime}</span>
+                </div>
+
+                <div class="flex-1">
+                  <div class="flex items-center gap-2 mb-1">
+                    <h3 class="text-base font-bold text-white group-hover:text-amber-300 transition-colors">
+                      {prog.title}
+                    </h3>
+                    {prog.rating && (
+                      <span class="text-[10px] font-semibold text-slate-300 bg-slate-800 px-1.5 py-0.5 rounded">
+                        {prog.rating}
+                      </span>
+                    )}
+                  </div>
+
+                  {prog.sub_title && (
+                    <p class="text-xs text-slate-300 mb-1 font-medium">
+                      {prog.sub_title}
+                    </p>
+                  )}
+
+                  <p class="text-xs text-slate-400 line-clamp-2 leading-relaxed">
+                    {prog.description || 'No description available.'}
+                  </p>
+                </div>
+              </div>
+
+              {prog.image_url && (
+                <div class="w-20 h-14 rounded-lg overflow-hidden bg-slate-800 flex-shrink-0 self-end sm:self-center">
+                  <img src={prog.image_url} alt={prog.title} class="w-full h-full object-cover" loading="lazy" />
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  </main>
+
+  <ProgramOverlay />
+  <Footer />
+</BaseLayout>

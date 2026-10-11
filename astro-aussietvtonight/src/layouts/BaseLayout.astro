@@ -1,0 +1,72 @@
+---
+/**
+ * BaseLayout for aussietvtonight.com
+ */
+interface Props {
+  title: string;
+  description: string;
+  canonicalUrl?: string;
+  jsonLd?: Record<string, any> | Record<string, any>[];
+}
+
+const {
+  title,
+  description,
+  canonicalUrl = Astro.url.href,
+  jsonLd,
+} = Astro.props;
+
+const siteUrl = 'https://aussietvtonight.com';
+const ogImageUrl = `${siteUrl}/og-image.png`;
+---
+
+<!doctype html>
+<html lang="en-AU" class="bg-slate-950 text-slate-100 antialiased">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <!-- Geo Targeting Australia -->
+    <meta name="geo.region" content="AU" />
+    <meta name="geo.placename" content="Sydney, Melbourne, Brisbane, Adelaide, Perth" />
+    <meta name="geo.position" content="-33.8688;151.2093" />
+    <meta name="ICBM" content="-33.8688, 151.2093" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:site_name" content="Aussie TV Tonight" />
+    <meta property="og:locale" content="en_AU" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate icon" href="/favicon.ico" />
+
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://i.mjh.nz" crossorigin />
+    <link rel="preconnect" href="https://imageresizer.static9.net.au" crossorigin />
+    <link rel="preconnect" href="https://10play.com.au" crossorigin />
+    <link rel="preconnect" href="https://image.pr.sbsod.com" crossorigin />
+
+    <!-- Structured Data (JSON-LD) -->
+    {jsonLd && (
+      <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    )}
+  </head>
+  <body class="min-h-screen flex flex-col bg-slate-950 font-sans selection:bg-amber-400 selection:text-slate-950">
+    <slot />
+  </body>
+</html>

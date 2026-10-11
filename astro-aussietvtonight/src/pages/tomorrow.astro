@@ -1,0 +1,96 @@
+---
+/**
+ * Tomorrow — Aussie TV Tonight
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ChannelCard from '../components/ChannelCard.astro';
+import ProgramOverlay from '../components/ProgramOverlay.astro';
+import { fetchChannels, fetchProgramsForDate } from '../lib/epg';
+import { getTomorrowInAustralia, formatDateAU, getAustralianHour } from '../utils/timeSlots';
+import { normCid } from '../utils/channelSlug';
+import { MAJOR_AU_ORDER, filterRealPrograms } from '../utils/channelFilters';
+import type { Channel, Program } from '../types';
+
+const tomorrowDate = getTomorrowInAustralia();
+const dateLabel = formatDateAU(tomorrowDate);
+
+type ChannelWithSlug = Channel & { slug: string; programs: Program[] };
+let channelsWithPrograms: ChannelWithSlug[] = [];
+
+try {
+  const [channels, allPrograms] = await Promise.all([
+    fetchChannels(),
+    fetchProgramsForDate(tomorrowDate),
+  ]);
+
+  const programsByChannel = new Map<string, Program[]>();
+  for (const prog of allPrograms) {
+    const key = normCid(prog.channel_id ?? '');
+    if (!programsByChannel.has(key)) programsByChannel.set(key, []);
+    programsByChannel.get(key)!.push(prog);
+  }
+
+  for (const ch of channels) {
+    const slug = normCid(ch.id);
+    const allChPrograms = programsByChannel.get(slug) ?? [];
+    const realChPrograms = filterRealPrograms(allChPrograms);
+    if (realChPrograms.length < 2) continue;
+
+    const eveningPrograms = realChPrograms
+      .filter(p => {
+        const hour = getAustralianHour(p.start_time, 'Australia/Sydney');
+        return hour >= 19 || hour <= 2;
+      })
+      .sort((a, b) => new Date(a.start_time).getTime() - new Date(b.start_time).getTime());
+
+    if (eveningPrograms.length > 0) {
+      channelsWithPrograms.push({ ...ch, programs: eveningPrograms, slug });
+    }
+  }
+
+  channelsWithPrograms.sort((a, b) => {
+    const ai = MAJOR_AU_ORDER.indexOf(a.slug);
+    const bi = MAJOR_AU_ORDER.indexOf(b.slug);
+    if (ai === -1 && bi === -1) return (a.number || 99) - (b.number || 99);
+    if (ai === -1) return 1;
+    if (bi === -1) return -1;
+    return ai - bi;
+  });
+} catch (err) {
+  console.error('[tomorrow.astro] Error rendering tomorrow:', err);
+}
+
+const pageTitle = `Tomorrow's TV Guide Australia | What's on TV (${dateLabel})`;
+const pageDesc = `Plan ahead with tomorrow's Australian TV guide (${dateLabel}). See prime time schedules, movies, and shows across Channel 7, Nine, 10, ABC, and SBS.`;
+---
+
+<BaseLayout title={pageTitle} description={pageDesc}>
+  <Header />
+
+  <main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+    <div class="mb-8 border-b border-slate-800 pb-6">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/10 border border-amber-400/20 text-amber-400 text-xs font-semibold mb-3">
+        <span>📅 Upcoming Guide</span>
+        <span>•</span>
+        <span>{dateLabel}</span>
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+        What's on TV <span class="text-amber-400">Tomorrow</span> in Australia
+      </h1>
+      <p class="text-base text-slate-400 mt-2 max-w-2xl">
+        Preview tomorrow's prime time lineup starting at 7:30 PM across all Australian Freeview channels.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {channelsWithPrograms.map(ch => (
+        <ChannelCard channel={ch} programs={ch.programs} slug={ch.slug} />
+      ))}
+    </div>
+  </main>
+
+  <ProgramOverlay />
+  <Footer />
+</BaseLayout>

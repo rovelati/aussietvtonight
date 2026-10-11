@@ -1,0 +1,133 @@
+---
+/**
+ * Homepage — Aussie TV Tonight (Prime Time 7:30 PM)
+ * Fast, instant TV guide for Australia.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ChannelCard from '../components/ChannelCard.astro';
+import ProgramOverlay from '../components/ProgramOverlay.astro';
+import { fetchChannels, fetchProgramsForDate } from '../lib/epg';
+import { getTodayInAustralia, formatDateAU, getAustralianHour } from '../utils/timeSlots';
+import { normCid } from '../utils/channelSlug';
+import { MAJOR_AU_ORDER, filterRealPrograms } from '../utils/channelFilters';
+import type { Channel, Program } from '../types';
+
+const today = getTodayInAustralia();
+const dateLabel = formatDateAU(today);
+
+type ChannelWithSlug = Channel & { slug: string; programs: Program[] };
+let channelsWithPrograms: ChannelWithSlug[] = [];
+
+try {
+  const [channels, allPrograms] = await Promise.all([
+    fetchChannels(),
+    fetchProgramsForDate(today),
+  ]);
+
+  const programsByChannel = new Map<string, Program[]>();
+  for (const prog of allPrograms) {
+    const key = normCid(prog.channel_id ?? '');
+    if (!programsByChannel.has(key)) programsByChannel.set(key, []);
+    programsByChannel.get(key)!.push(prog);
+  }
+
+  for (const ch of channels) {
+    const slug = normCid(ch.id);
+    const allChPrograms = programsByChannel.get(slug) ?? [];
+    const realChPrograms = filterRealPrograms(allChPrograms);
+    if (realChPrograms.length < 2) continue;
+
+    // Filter Prime Time (from 19:00 / 19:30 onwards in Sydney/Eastern time)
+    const eveningPrograms = realChPrograms
+      .filter(p => {
+        const hour = getAustralianHour(p.start_time, 'Australia/Sydney');
+        // Programs in prime time window (after 19:00 or late night up to 2:00)
+        return hour >= 19 || hour <= 2;
+      })
+      .sort((a, b) => new Date(a.start_time).getTime() - new Date(b.start_time).getTime());
+
+    if (eveningPrograms.length > 0) {
+      channelsWithPrograms.push({ ...ch, programs: eveningPrograms, slug });
+    }
+  }
+
+  // Sort channels by Major Australian priority order
+  channelsWithPrograms.sort((a, b) => {
+    const ai = MAJOR_AU_ORDER.indexOf(a.slug);
+    const bi = MAJOR_AU_ORDER.indexOf(b.slug);
+    if (ai === -1 && bi === -1) return (a.number || 99) - (b.number || 99);
+    if (ai === -1) return 1;
+    if (bi === -1) return -1;
+    return ai - bi;
+  });
+} catch (err) {
+  console.error('[index.astro] Error rendering homepage:', err);
+}
+
+const pageTitle = "What's on TV Tonight in Australia | Freeview TV Guide";
+const pageDesc = `Complete Australian TV guide for tonight (${dateLabel}). Discover prime time shows, movies, and current affairs on Seven, Nine, 10, ABC, and SBS with live schedules and zero lag.`;
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "TVGuide",
+  "name": "Aussie TV Tonight",
+  "url": "https://aussietvtonight.com/",
+  "description": pageDesc,
+  "inLanguage": "en-AU"
+};
+---
+
+<BaseLayout title={pageTitle} description={pageDesc} jsonLd={jsonLd}>
+  <Header />
+
+  <main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+    
+    <!-- Hero Section -->
+    <div class="mb-8">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-800 pb-6">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/10 border border-amber-400/20 text-amber-400 text-xs font-semibold mb-3">
+            <span>✨ Australia's #1 Freeview Guide</span>
+            <span>•</span>
+            <span>{dateLabel}</span>
+          </div>
+          <h1 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+            What's on TV <span class="text-amber-400">Tonight</span> in Australia
+          </h1>
+          <p class="text-base text-slate-400 mt-2 max-w-2xl">
+            Prime Time Freeview guide starting at <strong>7:30 PM</strong> across Channel 7, Nine, 10, ABC, SBS, and digital multi-channels.
+          </p>
+        </div>
+
+        <!-- Quick Filters -->
+        <div class="flex items-center gap-2">
+          <a 
+            href="/movies-tonight/" 
+            class="px-4 py-2 rounded-xl bg-slate-850 hover:bg-slate-800 border border-slate-700 text-slate-200 text-xs font-bold transition-colors flex items-center gap-2 shadow-sm"
+          >
+            🍿 Movies Tonight
+          </a>
+          <a 
+            href="/on-now/" 
+            class="px-4 py-2 rounded-xl bg-slate-850 hover:bg-slate-800 border border-slate-700 text-slate-200 text-xs font-bold transition-colors flex items-center gap-2 shadow-sm"
+          >
+            🔴 On Now
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Channels Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {channelsWithPrograms.map(ch => (
+        <ChannelCard channel={ch} programs={ch.programs} slug={ch.slug} />
+      ))}
+    </div>
+
+  </main>
+
+  <ProgramOverlay />
+  <Footer />
+</BaseLayout>

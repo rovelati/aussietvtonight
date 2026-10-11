@@ -1,0 +1,177 @@
+---
+/**
+ * Movies Tonight — Aussie TV Tonight
+ * Highly searched query: movies on tv tonight in Australia
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ProgramOverlay from '../components/ProgramOverlay.astro';
+import { fetchChannels, fetchProgramsForDate } from '../lib/epg';
+import { getTodayInAustralia, formatDateAU, formatTimeAU, getAustralianHour } from '../utils/timeSlots';
+import { normCid } from '../utils/channelSlug';
+import { isMovie } from '../utils/programClassifier';
+import type { Channel, Program } from '../types';
+
+const today = getTodayInAustralia();
+const dateLabel = formatDateAU(today);
+
+interface MovieListing {
+  program: Program;
+  channel: Channel;
+  slug: string;
+}
+
+let moviesTonight: MovieListing[] = [];
+
+try {
+  const [channels, allPrograms] = await Promise.all([
+    fetchChannels(),
+    fetchProgramsForDate(today),
+  ]);
+
+  const channelMap = new Map<string, Channel>();
+  for (const ch of channels) {
+    channelMap.set(normCid(ch.id), ch);
+  }
+
+  for (const prog of allPrograms) {
+    const slug = normCid(prog.channel_id ?? '');
+    const ch = channelMap.get(slug);
+    if (!ch) continue;
+
+    const hour = getAustralianHour(prog.start_time, 'Australia/Sydney');
+    // Evening movies (18:00 onwards)
+    const isEvening = hour >= 18 || hour <= 2;
+    if (isEvening && isMovie(prog.category, prog.title, prog.description)) {
+      moviesTonight.push({
+        program: prog,
+        channel: ch,
+        slug,
+      });
+    }
+  }
+
+  moviesTonight.sort((a, b) => new Date(a.program.start_time).getTime() - new Date(b.program.start_time).getTime());
+} catch (err) {
+  console.error('[movies-tonight.astro] Error fetching movies:', err);
+}
+
+const pageTitle = "Movies on TV Tonight Australia | Freeview Cinema Guide";
+const pageDesc = `Find all movies on TV tonight (${dateLabel}) across Australian Freeview channels including 7flix, 9Gem, 10, SBS World Movies, and ABC. Full schedules and ratings.`;
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "Movies on TV Tonight in Australia",
+  "itemListElement": moviesTonight.slice(0, 10).map((m, idx) => ({
+    "@type": "ListItem",
+    "position": idx + 1,
+    "item": {
+      "@type": "Movie",
+      "name": m.program.title,
+      "description": m.program.description,
+      "startDate": m.program.start_time,
+      "location": {
+        "@type": "BroadcastService",
+        "name": m.channel.name
+      }
+    }
+  }))
+};
+---
+
+<BaseLayout title={pageTitle} description={pageDesc} jsonLd={jsonLd}>
+  <Header />
+
+  <main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+    <div class="mb-8 border-b border-slate-800 pb-6">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/10 border border-amber-400/20 text-amber-400 text-xs font-semibold mb-3">
+        <span>🍿 Cinema & Films</span>
+        <span>•</span>
+        <span>{dateLabel}</span>
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+        Movies on TV <span class="text-amber-400">Tonight</span> in Australia
+      </h1>
+      <p class="text-base text-slate-400 mt-2 max-w-2xl">
+        Every feature film airing tonight on Australian Free-to-Air television, from blockbusters to cult classics.
+      </p>
+    </div>
+
+    <!-- Movies Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {moviesTonight.map(({ program, channel, slug }) => {
+        const timeFormatted = formatTimeAU(program.start_time);
+
+        return (
+          <div 
+            class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-slate-700 transition-all duration-200 shadow-lg flex flex-col group cursor-pointer"
+            data-program-id={program.id}
+            data-title={program.title}
+            data-desc={program.description}
+            data-category={program.category}
+            data-start={program.start_time}
+            data-end={program.end_time}
+            data-rating={program.rating}
+            data-image={program.image_url}
+            data-channel-name={channel.name}
+            data-channel-logo={channel.logo}
+            onclick="openProgramModal(this)"
+          >
+            {program.image_url && (
+              <div class="w-full h-44 bg-slate-850 overflow-hidden relative">
+                <img 
+                  src={program.image_url} 
+                  alt={program.title} 
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  loading="lazy"
+                />
+                <div class="absolute top-3 left-3 bg-slate-950/80 backdrop-blur px-2.5 py-1 rounded-lg border border-slate-700/60 flex items-center gap-2">
+                  <img src={channel.logo} alt={channel.name} class="h-4 max-w-[60px] object-contain" />
+                  <span class="text-xs font-bold text-white">{channel.name}</span>
+                </div>
+                {program.rating && (
+                  <div class="absolute top-3 right-3 bg-slate-900/90 text-amber-400 font-bold text-xs px-2 py-0.5 rounded border border-slate-700">
+                    {program.rating}
+                  </div>
+                )}
+              </div>
+            )}
+
+            <div class="p-5 flex-1 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center gap-2 mb-2">
+                  <span 
+                    class="text-xs font-bold font-mono px-2 py-0.5 rounded bg-amber-400 text-slate-950"
+                    data-utc-start={program.start_time}
+                  >
+                    {timeFormatted}
+                  </span>
+                  <span class="text-xs text-slate-400 font-medium">
+                    {channel.name}
+                  </span>
+                </div>
+
+                <h3 class="text-lg font-bold text-white group-hover:text-amber-300 transition-colors line-clamp-1">
+                  {program.title}
+                </h3>
+
+                <p class="text-xs text-slate-400 mt-2 line-clamp-3 leading-relaxed">
+                  {program.description || 'No description available.'}
+                </p>
+              </div>
+
+              <div class="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between text-xs font-semibold text-amber-400">
+                <span>View Movie Details →</span>
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </main>
+
+  <ProgramOverlay />
+  <Footer />
+</BaseLayout>

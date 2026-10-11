@@ -1,0 +1,137 @@
+---
+/**
+ * ChannelCard component for Aussie TV Tonight
+ * Displays a TV network/channel with its evening or current listings.
+ */
+import { formatTimeAU } from '../utils/timeSlots';
+import BookmarkButton from './BookmarkButton.astro';
+import type { Channel, Program } from '../types';
+
+interface Props {
+  channel: Channel;
+  programs: Program[];
+  slug: string;
+}
+
+const { channel, programs, slug } = Astro.props;
+---
+
+<div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-slate-700 transition-all duration-200 shadow-lg flex flex-col">
+  <!-- Channel Header -->
+  <div class="px-4 py-3 bg-slate-850/80 border-b border-slate-800 flex items-center justify-between">
+    <a href={`/${slug}/`} class="flex items-center gap-3 group">
+      <div class="w-12 h-10 bg-slate-800/80 rounded-lg p-1.5 flex items-center justify-center border border-slate-700/50">
+        <img 
+          src={channel.logo} 
+          alt={`${channel.name} logo`} 
+          class="max-w-full max-h-full object-contain"
+          loading="lazy"
+        />
+      </div>
+      <div>
+        <h3 class="text-base font-bold text-white group-hover:text-amber-400 transition-colors flex items-center gap-2">
+          {channel.name}
+          {channel.number > 0 && (
+            <span class="text-xs font-semibold px-2 py-0.5 bg-slate-800 text-slate-300 rounded-md">
+              Ch {channel.number}
+            </span>
+          )}
+        </h3>
+        <span class="text-[11px] text-slate-400 font-medium">Freeview Australia</span>
+      </div>
+    </a>
+    
+    <div class="flex items-center gap-2">
+      <BookmarkButton channelSlug={slug} />
+    </div>
+  </div>
+
+  <!-- Programs List -->
+  <div class="divide-y divide-slate-800/60 flex-1">
+    {programs.slice(0, 4).map((prog, index) => {
+      const isPrime = index === 0;
+      const formattedTime = formatTimeAU(prog.start_time);
+
+      return (
+        <div 
+          class={`px-4 py-3 hover:bg-slate-800/40 transition-colors cursor-pointer group flex items-start justify-between gap-3 ${
+            isPrime ? 'bg-amber-400/5 border-l-4 border-amber-400' : ''
+          }`}
+          data-program-id={prog.id}
+          data-title={prog.title}
+          data-desc={prog.description}
+          data-category={prog.category}
+          data-start={prog.start_time}
+          data-end={prog.end_time}
+          data-rating={prog.rating}
+          data-image={prog.image_url}
+          data-channel-name={channel.name}
+          data-channel-logo={channel.logo}
+          onclick="openProgramModal(this)"
+        >
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2 mb-1">
+              <span 
+                class={`text-xs font-bold font-mono px-2 py-0.5 rounded ${
+                  isPrime ? 'bg-amber-400 text-slate-950' : 'bg-slate-800 text-slate-300'
+                }`}
+                data-utc-start={prog.start_time}
+              >
+                {formattedTime}
+              </span>
+
+              {isPrime && (
+                <span class="text-[10px] uppercase font-extrabold tracking-wider bg-amber-400/20 text-amber-300 px-1.5 py-0.5 rounded">
+                  Prime Time
+                </span>
+              )}
+
+              {prog.rating && (
+                <span class="text-[10px] font-semibold text-slate-400 bg-slate-800/60 px-1.5 py-0.5 rounded">
+                  {prog.rating}
+                </span>
+              )}
+
+              {prog.category && (
+                <span class="text-[11px] text-slate-400 truncate">
+                  {prog.category}
+                </span>
+              )}
+            </div>
+
+            <h4 class="text-sm font-semibold text-white group-hover:text-amber-300 transition-colors truncate">
+              {prog.title}
+            </h4>
+
+            {prog.sub_title && (
+              <p class="text-xs text-slate-400 truncate mt-0.5">
+                {prog.sub_title}
+              </p>
+            )}
+          </div>
+
+          {prog.image_url && (
+            <div class="w-16 h-12 rounded-lg overflow-hidden bg-slate-800 flex-shrink-0">
+              <img 
+                src={prog.image_url} 
+                alt={prog.title} 
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                loading="lazy"
+              />
+            </div>
+          )}
+        </div>
+      );
+    })}
+  </div>
+
+  <!-- Channel Footer Link -->
+  <div class="px-4 py-2.5 bg-slate-900 border-t border-slate-800/80 text-right">
+    <a 
+      href={`/${slug}/`} 
+      class="text-xs font-semibold text-amber-400 hover:text-amber-300 transition-colors inline-flex items-center gap-1"
+    >
+      Full {channel.name} Guide →
+    </a>
+  </div>
+</div>

@@ -1,0 +1,190 @@
+# ---------------------------------------------------------------------------
+# Cloudflare Pages Redirects & HTTP status codes
+# ---------------------------------------------------------------------------
+
+# 301 Permanent Redirects for shortcuts and aliases
+/spielfilme         /film-heute-abend/   301
+/spielfilme/        /film-heute-abend/   301
+/filme              /film-heute-abend/   301
+/filme/             /film-heute-abend/   301
+/serien             /serien-heute-abend/ 301
+/serien/            /serien-heute-abend/ 301
+/sport              /sport-heute-abend/  301
+/sport/             /sport-heute-abend/  301
+
+# 301 Legacy URL Migration: /live/:channel -> /:channel/
+/live/voxup         /voxup/              301
+/live/rtf1          /rtf1/               301
+/live/of-tv         /of-tv/              301
+/live/welt          /welt/               301
+/live/:channel      /:channel/           301
+
+# 301 Legacy URL Migration: /morgen/:channel -> /:channel/
+/morgen/:channel    /:channel/           301
+
+# 301 Channel Slug Aliases & Normalization (Bing / Google / Direct Navigation)
+/hse-24             /hse24/              301
+/hse-24/            /hse24/              301
+/daserste           /das-erste/          301
+/daserste/          /das-erste/          301
+/kabeleins          /kabel-eins/         301
+/kabeleins/         /kabel-eins/         301
+/kabel1             /kabel-eins/         301
+/kabel1/            /kabel-eins/         301
+/sat1gold           /sat1-gold/          301
+/sat1gold/          /sat1-gold/          301
+/rtlzwei            /rtl2/               301
+/rtlzwei/           /rtl2/               301
+/rtl-2              /rtl2/               301
+/rtl-2/             /rtl2/               301
+/superrtl           /super-rtl/          301
+/superrtl/          /super-rtl/          301
+/zdfneo             /zdf-neo/            301
+/zdfneo/            /zdf-neo/            301
+/pro7               /prosieben/          301
+/pro7/              /prosieben/          301
+/sat-1              /sat1/               301
+/sat-1/             /sat1/               301
+
+# Bing 404 Resolution Redirects -> Canonical Hyphenated Slugs
+/bibel-tv           /bibeltv/            301
+/bibel-tv/          /bibeltv/            301
+/eurosport-1        /eurosport1/         301
+/eurosport-1/       /eurosport1/         301
+/tv-8-int           /tv8int/             301
+/tv-8-int/          /tv8int/             301
+
+/comedycentral      /comedy-central/     301
+/comedycentral/     /comedy-central/     301
+/disneychannel      /disney-channel/     301
+/disneychannel/     /disney-channel/     301
+/skycinemaaction    /sky-cinema-action/  301
+/skycinemaaction/   /sky-cinema-action/  301
+/skysportbundesliga /sky-sport-bundesliga/ 301
+/skysportbundesliga/ /sky-sport-bundesliga/ 301
+/skysportmix        /sky-sport-mix/      301
+/skysportmix/       /sky-sport-mix/      301
+/rtlliving          /rtl-living/         301
+/rtlliving/         /rtl-living/         301
+/kinowelttv         /kinowelt-tv/        301
+/kinowelttv/        /kinowelt-tv/        301
+/regiotv            /regio-tv/           301
+/regiotv/           /regio-tv/           301
+/redbulltv          /red-bull-tv/        301
+/redbulltv/         /red-bull-tv/        301
+/rbbberlin          /rbb-berlin/         301
+/rbbberlin/         /rbb-berlin/         301
+/sat1bayern         /sat1-bayern/        301
+/sat1bayern/        /sat1-bayern/        301
+/rtrplaneta         /rtr-planeta/        301
+/rtrplaneta/        /rtr-planeta/        301
+/swrbw              /swr-bw/             301
+/swrbw/             /swr-bw/             301
+/dazn18live         /dazn-1-8-live/      301
+/dazn18live/        /dazn-1-8-live/      301
+/ndrfernsehenniedersachsen /ndr-fernsehen-niedersachsen/ 301
+/ndrfernsehenniedersachsen/ /ndr-fernsehen-niedersachsen/ 301
+/mdrthuringen       /mdr-thueringen/     301
+/mdrthuringen/      /mdr-thueringen/     301
+/mdr-thuringen      /mdr-thueringen/     301
+/mdr-thuringen/     /mdr-thueringen/     301
+/sport3-myteamtv    /sport-3-myteamtv/   301
+/sport3-myteamtv/   /sport-3-myteamtv/   301
+/sport8-myteamtv    /sport-8-myteamtv/   301
+/sport8-myteamtv/   /sport-8-myteamtv/   301
+
+# Category and Special Characters
+/komödien           /film-heute-abend/   301
+/komödien/          /film-heute-abend/   301
+/kom%C3%B6dien      /film-heute-abend/   301
+/kom%C3%B6dien/     /film-heute-abend/   301
+/kom%c3%b6dien      /film-heute-abend/   301
+/kom%c3%b6dien/     /film-heute-abend/   301
+/komoedien          /film-heute-abend/   301
+/komoedien/         /film-heute-abend/   301
+/sport1+            /sport1-plus/        301
+/sport1+/           /sport1-plus/        301
+/sport1%2B          /sport1-plus/        301
+/sport1%2B/         /sport1-plus/        301
+/anixe+             /anixe-plus/         301
+/anixe+/            /anixe-plus/         301
+/anixe%2B           /anixe-plus/         301
+/anixe%2B/          /anixe-plus/         301
+
+# 301 Redirect for Test channels (Sky Testkanäle -> Homepage)
+/testkanal/*        /                    301
+/testkanal-l01      /                    301
+/testkanal-l01/     /                    301
+/testkanal-l02      /                    301
+/testkanal-l02/     /                    301
+/testkanal-l03      /                    301
+/testkanal-l03/     /                    301
+/testkanal-l04      /                    301
+/testkanal-l04/     /                    301
+/testkanal-l05      /                    301
+/testkanal-l05/     /                    301
+/testkanal-l06      /                    301
+/testkanal-l06/     /                    301
+/testkanal-l07      /                    301
+/testkanal-l07/     /                    301
+/testkanall01       /                    301
+/testkanall01/      /                    301
+/testkanall02       /                    301
+/testkanall02/      /                    301
+/testkanall03       /                    301
+/testkanall03/      /                    301
+/testkanall04       /                    301
+/testkanall04/      /                    301
+/testkanall05       /                    301
+/testkanall05/      /                    301
+/testkanall06       /                    301
+/testkanall06/      /                    301
+/testkanall07       /                    301
+/testkanall07/      /                    301
+/testkanalh01       /                    301
+/testkanalh01/      /                    301
+/testkanali01       /                    301
+/testkanali01/      /                    301
+/testkanali03       /                    301
+/testkanali03/      /                    301
+
+# 301 Redirect for Adult / Erotic channels (Policy compliance -> Homepage)
+/beate-uhse-tv      /                    301
+/beate-uhse-tv/     /                    301
+/beateuhsetv        /                    301
+/beateuhsetv/       /                    301
+/beate-uhse/*       /                    301
+/blue-hustler       /                    301
+/blue-hustler/      /                    301
+/bluehustler        /                    301
+/bluehustler/       /                    301
+/playboy            /                    301
+/playboy/           /                    301
+/playboyeurope      /                    301
+/playboyeurope/     /                    301
+/playboy-europe     /                    301
+/playboy-europe/    /                    301
+/penthouse          /                    301
+/penthouse/         /                    301
+/penthousepassion   /                    301
+/penthousepassion/  /                    301
+/penthouse-passion  /                    301
+/penthouse-passion/ /                    301
+/lustpur            /                    301
+/lustpur/           /                    301
+/lust-pur           /                    301
+/lust-pur/          /                    301
+
+# 301 Redirect for Removed Dummy / No-Data channels -> Hubs
+/actionfilme        /film-heute-abend/   301
+/actionfilme/       /film-heute-abend/   301
+/artflix            /film-heute-abend/   301
+/artflix/           /film-heute-abend/   301
+/dramafilme         /film-heute-abend/   301
+/dramafilme/        /film-heute-abend/   301
+/romantischefilme   /film-heute-abend/   301
+/romantischefilme/  /film-heute-abend/   301
+
+# 410 Gone — programm detail pages were removed permanently
+/programm/*         410
+/programm           410

@@ -1,0 +1,20 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+const pageTitle = "Terms of Service | Aussie TV Tonight";
+const pageDesc = "Terms of service for aussietvtonight.com";
+---
+
+<BaseLayout title={pageTitle} description={pageDesc}>
+  <Header />
+  <main class="flex-1 max-w-4xl mx-auto px-4 py-12 text-slate-300">
+    <h1 class="text-3xl font-extrabold text-white mb-6">Terms of Service</h1>
+    <div class="space-y-4 text-sm leading-relaxed">
+      <p>Welcome to <strong>aussietvtonight.com</strong>. By accessing our TV guide, you agree to these terms.</p>
+      <p>TV schedules are compiled for informational convenience. Broadcast networks may alter program schedules at their discretion.</p>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
