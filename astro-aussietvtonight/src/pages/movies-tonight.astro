@@ -11,6 +11,7 @@ import { fetchChannels, fetchProgramsForDate } from '../lib/epg';
 import { getTodayInAustralia, formatDateAU, formatTimeAU, getAustralianHour } from '../utils/timeSlots';
 import { normCid } from '../utils/channelSlug';
 import { isMovie } from '../utils/programClassifier';
+import { getFallbackImageForProgram } from '../utils/programImages';
 import type { Channel, Program } from '../types';
 
 const today = getTodayInAustralia();
@@ -150,6 +151,7 @@ const jsonLd = {
                   alt={program.title} 
                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   loading="lazy"
+                  onerror={`this.onerror=null; this.src='${getFallbackImageForProgram(program.title, 'Movie')}';`}
                 />
                 <div class="absolute top-3 left-3 bg-slate-950/80 backdrop-blur px-2.5 py-1 rounded-lg border border-slate-700/60 flex items-center gap-2">
                   <img src={channel.logo} alt={channel.name} class="h-4 max-w-[60px] object-contain" />

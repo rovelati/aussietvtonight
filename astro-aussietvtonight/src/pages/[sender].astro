@@ -12,6 +12,7 @@ import { fetchChannels, fetchProgramsForDate } from '../lib/epg';
 import { getTodayInAustralia, formatDateAU, formatTimeAU } from '../utils/timeSlots';
 import { normCid } from '../utils/channelSlug';
 import { filterRealPrograms } from '../utils/channelFilters';
+import { getFallbackImageForProgram } from '../utils/programImages';
 import type { Channel, Program } from '../types';
 
 export async function getStaticPaths() {
@@ -154,7 +155,13 @@ const jsonLd = {
 
               {prog.image_url && (
                 <div class="w-20 h-14 rounded-lg overflow-hidden bg-slate-800 flex-shrink-0 self-end sm:self-center">
-                  <img src={prog.image_url} alt={prog.title} class="w-full h-full object-cover" loading="lazy" />
+                  <img 
+                    src={prog.image_url} 
+                    alt={prog.title} 
+                    class="w-full h-full object-cover" 
+                    loading="lazy" 
+                    onerror={`this.onerror=null; this.src='${getFallbackImageForProgram(prog.title, prog.category)}';`}
+                  />
                 </div>
               )}
             </div>

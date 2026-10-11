@@ -4,6 +4,7 @@
  * Displays a TV network/channel with its evening or current listings.
  */
 import { formatTimeAU } from '../utils/timeSlots';
+import { getFallbackImageForProgram } from '../utils/programImages';
 import BookmarkButton from './BookmarkButton.astro';
 import type { Channel, Program } from '../types';
 
@@ -118,6 +119,7 @@ const { channel, programs, slug } = Astro.props;
                 alt={prog.title} 
                 class="w-full h-full object-cover group-hover:scale-105 transition-transform"
                 loading="lazy"
+                onerror={`this.onerror=null; this.src='${getFallbackImageForProgram(prog.title, prog.category)}';`}
               />
             </div>
           )}
