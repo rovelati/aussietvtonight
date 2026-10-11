@@ -39,8 +39,9 @@ try {
   console.error(`[sender.astro] Error loading programs for ${sender}:`, err);
 }
 
-const pageTitle = `${channel.name} TV Guide Tonight | Schedule & Programs Australia`;
-const pageDesc = `Complete TV guide for ${channel.name} today (${dateLabel}). See full schedule, prime time shows starting at 7:30 PM, movies, and current affairs on Freeview.`;
+const pageTitle = `${channel.name} TV Guide Australia | Schedule & Programs Tonight`;
+const pageDesc = `Complete TV guide for ${channel.name}. See full daily schedule, prime time shows starting at 7:30 PM, movies, and current affairs on Freeview Australia.`;
+const keywords = `${channel.name.toLowerCase()} tv guide, ${channel.name.toLowerCase()} tonight, what's on ${channel.name.toLowerCase()}, ${channel.name.toLowerCase()} schedule australia`;
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -52,7 +53,7 @@ const jsonLd = {
 };
 ---
 
-<BaseLayout title={pageTitle} description={pageDesc} jsonLd={jsonLd}>
+<BaseLayout title={pageTitle} description={pageDesc} keywords={keywords} jsonLd={jsonLd}>
   <Header />
 
   <main class="flex-1 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">

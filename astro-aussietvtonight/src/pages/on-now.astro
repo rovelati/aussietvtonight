@@ -85,11 +85,12 @@ try {
   console.error('[on-now.astro] Error rendering On Now:', err);
 }
 
-const pageTitle = "What's on TV Right Now in Australia | Live TV Guide";
-const pageDesc = "Live TV guide for Australia. See what is currently airing on Seven, Nine, 10, ABC, SBS, and digital multi-channels right now with real-time schedules.";
+const pageTitle = "What's on TV Right Now in Australia | Live Freeview TV Guide";
+const pageDesc = "Live TV guide for Australia. See what is currently airing on Channel 7, Nine, 10, ABC, and SBS right now with real-time schedules and progress.";
+const keywords = "what's on tv right now, on tv now australia, live tv guide australia, what's on tv now, freeview on now australia";
 ---
 
-<BaseLayout title={pageTitle} description={pageDesc}>
+<BaseLayout title={pageTitle} description={pageDesc} keywords={keywords}>
   <Header />
 
   <main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
@@ -123,7 +124,7 @@ const pageDesc = "Live TV guide for Australia. See what is currently airing on S
                   <div class="w-10 h-8 bg-slate-800 rounded p-1 flex items-center justify-center">
                     <img src={channel.logo} alt={channel.name} class="max-w-full max-h-full object-contain" />
                   </div>
-                  <span class="font-bold text-white text-sm">{channel.name}</span>
+                  <h2 class="font-bold text-white text-sm">{channel.name}</h2>
                 </a>
                 <span class="text-xs px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-bold flex items-center gap-1">
                   <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>

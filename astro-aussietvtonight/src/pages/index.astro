@@ -67,7 +67,8 @@ try {
 }
 
 const pageTitle = "What's on TV Tonight in Australia | Freeview TV Guide";
-const pageDesc = `Complete Australian TV guide for tonight (${dateLabel}). Discover prime time shows, movies, and current affairs on Seven, Nine, 10, ABC, and SBS with live schedules and zero lag.`;
+const pageDesc = "Complete Australian TV guide for tonight. Discover prime time shows starting at 7:30 PM, movies, and current affairs on Channel 7, Nine, 10, ABC, and SBS.";
+const keywords = "what's on tv tonight, tv guide tonight, freeview tv guide, on tv tonight, tonight on tv, free to air tv guide tonight australia, aussie tv guide";
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -79,7 +80,7 @@ const jsonLd = {
 };
 ---
 
-<BaseLayout title={pageTitle} description={pageDesc} jsonLd={jsonLd}>
+<BaseLayout title={pageTitle} description={pageDesc} keywords={keywords} jsonLd={jsonLd}>
   <Header />
 
   <main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">

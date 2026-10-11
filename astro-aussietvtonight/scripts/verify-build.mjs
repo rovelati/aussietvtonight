@@ -6,8 +6,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const DIST_DIR = path.resolve(__dirname, '..', 'dist');
 
-const REQUIRED_CHANNELS = ['zdf', 'das-erste', 'rtl', 'sat1', 'prosieben', 'vox', 'kabel-eins', 'arte', '3sat'];
-const FORBIDDEN_CHANNELS = ['testkanalh01', 'testkanall01', 'beate-uhsetv', 'bluehustler', 'playboyeurope', 'penthousepassion', 'lustpur'];
+const REQUIRED_CHANNELS = ['seven', 'channel-9', '10', 'abc-tv', 'sbs', 'sbs-world-movies', '7flix', '9gem'];
+const FORBIDDEN_CHANNELS = ['testkanalh01', 'testkanall01', 'bluehustler', 'playboyeurope'];
 
 function verify() {
   console.log('[verify-build] Checking built artifacts in dist/ ...');
@@ -19,12 +19,12 @@ function verify() {
   }
 
   const homeContent = fs.readFileSync(homeFile, 'utf8');
-  if (!homeContent.includes('FernsehHeute') || homeContent.length < 5000) {
+  if (!homeContent.includes('Aussie TV Tonight') || homeContent.length < 5000) {
     console.error('[verify-build] ERROR: dist/index.html looks incomplete or corrupted!');
     process.exit(1);
   }
 
-  // Check forbidden channels (adult & test channels must NOT be built)
+  // Check forbidden channels
   for (const forbidden of FORBIDDEN_CHANNELS) {
     const forbiddenDir = path.join(DIST_DIR, forbidden);
     if (fs.existsSync(forbiddenDir)) {
@@ -43,7 +43,7 @@ function verify() {
     }
 
     const content = fs.readFileSync(chanFile, 'utf8');
-    if (content.includes('Keine Sendedaten für') || !content.includes('data-program')) {
+    if (!content.includes('data-program')) {
       console.error(`[verify-build] ERROR: ${slug}/index.html has NO program listings!`);
       failed++;
     }
@@ -54,7 +54,7 @@ function verify() {
     process.exit(1);
   }
 
-  console.log(`[verify-build] SUCCESS: All critical channels verified and all forbidden channels excluded!`);
+  console.log(`[verify-build] SUCCESS: All Australian critical channels verified!`);
 }
 
 verify();

@@ -6,6 +6,10 @@ interface Props {
   title: string;
   description: string;
   canonicalUrl?: string;
+  keywords?: string;
+  author?: string;
+  publisher?: string;
+  noindex?: boolean;
   jsonLd?: Record<string, any> | Record<string, any>[];
 }
 
@@ -13,6 +17,10 @@ const {
   title,
   description,
   canonicalUrl = Astro.url.href,
+  keywords = "what's on tv tonight, tv guide tonight, freeview tv guide, on tv tonight, tonight on tv australia, australian tv guide",
+  author = "Aussie TV Tonight",
+  publisher = "Aussie TV Tonight",
+  noindex = false,
   jsonLd,
 } = Astro.props;
 
@@ -30,6 +38,10 @@ import '../styles/global.css';
     
     <title>{title}</title>
     <meta name="description" content={description} />
+    <meta name="keywords" content={keywords} />
+    <meta name="robots" content={noindex ? "noindex, nofollow" : "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"} />
+    <meta name="author" content={author} />
+    <meta name="publisher" content={publisher} />
     <link rel="canonical" href={canonicalUrl} />
 
     <!-- Geo Targeting Australia -->

@@ -63,8 +63,9 @@ try {
   console.error('[movies-tonight.astro] Error fetching movies:', err);
 }
 
-const pageTitle = "Movies on TV Tonight Australia | Freeview Cinema Guide";
-const pageDesc = `Find all movies on TV tonight (${dateLabel}) across Australian Freeview channels including 7flix, 9Gem, 10, SBS World Movies, and ABC. Full schedules and ratings.`;
+const pageTitle = "Movies on TV Tonight Australia | Freeview Cinema & Film Guide";
+const pageDesc = "Find all movies on TV tonight across Australian Freeview channels including SBS World Movies, 7flix, 9Gem, 10, and ABC. Full schedules and ratings.";
+const keywords = "movies on tv tonight, movies tonight australia, freeview movies tonight, film on tv tonight, tv movies tonight australia, sbs world movies guide";
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -87,7 +88,7 @@ const jsonLd = {
 };
 ---
 
-<BaseLayout title={pageTitle} description={pageDesc} jsonLd={jsonLd}>
+<BaseLayout title={pageTitle} description={pageDesc} keywords={keywords} jsonLd={jsonLd}>
   <Header />
 
   <main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
@@ -185,9 +186,9 @@ const jsonLd = {
                   </span>
                 </div>
 
-                <h3 class="text-lg font-bold text-white group-hover:text-amber-300 transition-colors line-clamp-1">
+                <h2 class="text-lg font-bold text-white group-hover:text-amber-300 transition-colors line-clamp-1">
                   {program.title}
-                </h3>
+                </h2>
 
                 <p class="text-xs text-slate-400 mt-2 line-clamp-3 leading-relaxed">
                   {program.description || 'Feature film presentation.'}

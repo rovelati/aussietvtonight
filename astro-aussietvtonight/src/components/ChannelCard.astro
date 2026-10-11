@@ -30,14 +30,14 @@ const { channel, programs, slug } = Astro.props;
         />
       </div>
       <div>
-        <h3 class="text-base font-bold text-white group-hover:text-amber-400 transition-colors flex items-center gap-2">
+        <h2 class="text-base font-bold text-white group-hover:text-amber-400 transition-colors flex items-center gap-2">
           {channel.name}
           {channel.number > 0 && (
             <span class="text-xs font-semibold px-2 py-0.5 bg-slate-800 text-slate-300 rounded-md">
               Ch {channel.number}
             </span>
           )}
-        </h3>
+        </h2>
         <span class="text-[11px] text-slate-400 font-medium">Freeview Australia</span>
       </div>
     </a>
@@ -101,9 +101,9 @@ const { channel, programs, slug } = Astro.props;
               )}
             </div>
 
-            <h4 class="text-sm font-semibold text-white group-hover:text-amber-300 transition-colors truncate">
+            <h3 class="text-sm font-semibold text-white group-hover:text-amber-300 transition-colors truncate">
               {prog.title}
-            </h4>
+            </h3>
 
             {prog.sub_title && (
               <p class="text-xs text-slate-400 truncate mt-0.5">
