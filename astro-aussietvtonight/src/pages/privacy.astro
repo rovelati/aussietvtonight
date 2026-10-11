@@ -3,20 +3,105 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 
-const pageTitle = "Privacy Policy | Aussie TV Tonight";
-const pageDesc = "Privacy policy for aussietvtonight.com - zero tracking cookies, local storage only.";
+const pageTitle = "Privacy & Cookie Policy | Aussie TV Tonight";
+const pageDesc = "Privacy and Cookie Policy for aussietvtonight.com. Learn how we handle local storage, cookies, and data.";
 ---
 
 <BaseLayout title={pageTitle} description={pageDesc}>
   <Header />
   <main class="flex-1 max-w-4xl mx-auto px-4 py-12 text-slate-300">
-    <h1 class="text-3xl font-extrabold text-white mb-6">Privacy Policy</h1>
-    <div class="space-y-4 text-sm leading-relaxed">
-      <p>At <strong>aussietvtonight.com</strong>, we are committed to respecting your privacy. We do not use tracking cookies or require any personal accounts.</p>
-      <h2 class="text-lg font-bold text-white mt-6">Local Storage</h2>
-      <p>We store your selected Australian city and bookmarked channels locally on your browser using standard HTML5 Local Storage. This data never leaves your device.</p>
-      <h2 class="text-lg font-bold text-white mt-6">Contact</h2>
-      <p>For any queries, contact us at contact@aussietvtonight.com.</p>
+    <div class="border-b border-slate-800 pb-6 mb-8">
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+        Privacy & Cookie Policy
+      </h1>
+      <p class="text-sm text-slate-400 mt-2">
+        Last updated: October 2026 • aussietvtonight.com
+      </p>
+    </div>
+
+    <div class="space-y-8 text-sm leading-relaxed">
+      <!-- Introduction -->
+      <section class="space-y-3">
+        <h2 class="text-xl font-bold text-white">1. Introduction</h2>
+        <p>
+          Welcome to <strong>aussietvtonight.com</strong>. We respect your privacy and are committed to transparency regarding any data processed when you use our Australian TV guide service.
+        </p>
+        <p>
+          This website is designed as a fast, accessible public utility for checking Australian Freeview schedules. We do not require account registration, passwords, or the submission of personal identifiers to browse our TV listings.
+        </p>
+      </section>
+
+      <!-- Data Controller & Contact -->
+      <section class="space-y-3 bg-slate-900 border border-slate-800 rounded-2xl p-6">
+        <h2 class="text-xl font-bold text-white flex items-center gap-2">
+          <span>📬</span>
+          <span>Contact Information & Privacy Officer</span>
+        </h2>
+        <p>
+          If you have any questions, suggestions, or privacy requests regarding aussietvtonight.com, please contact us directly at:
+        </p>
+        <p class="text-base font-semibold text-amber-400">
+          <a href="mailto:tv@aussietvtonight.com" class="hover:underline flex items-center gap-2">
+            <span>✉️</span> tv@aussietvtonight.com
+          </a>
+        </p>
+      </section>
+
+      <!-- Local Storage & Preferences -->
+      <section class="space-y-3">
+        <h2 class="text-xl font-bold text-white">2. Browser Local Storage</h2>
+        <p>
+          To give you the best Australian TV guide experience without requiring an account, we use standard browser <strong>HTML5 Local Storage</strong> for purely functional preferences:
+        </p>
+        <ul class="list-disc list-inside space-y-1 pl-2 text-slate-300">
+          <li><strong>Selected Timezone:</strong> Storing whether you are viewing schedules for Sydney/Melbourne (AEDT/AEST), Adelaide (ACDT), Brisbane (AEST), or Perth (AWST).</li>
+          <li><strong>Favorite Channels:</strong> Saving any channels you have pinned or bookmarked for quick access.</li>
+        </ul>
+        <p class="text-xs text-slate-400">
+          This preference data is stored solely on your local device and is never sent to our servers or shared with third parties. You can clear this anytime by resetting your browser site data.
+        </p>
+      </section>
+
+      <!-- Cookie Policy -->
+      <section class="space-y-3">
+        <h2 class="text-xl font-bold text-white">3. Cookie Policy</h2>
+        <p>
+          Cookies are small text files placed on your device by websites you visit.
+        </p>
+        <div class="space-y-3 mt-2">
+          <div class="p-4 bg-slate-900/60 rounded-xl border border-slate-800/80">
+            <h3 class="font-bold text-white text-sm mb-1">A. Essential & Technical Cookies</h3>
+            <p class="text-xs text-slate-400">
+              Necessary for security and edge CDN delivery provided by Cloudflare. These cookies do not store personally identifiable information and cannot be switched off in our systems.
+            </p>
+          </div>
+          <div class="p-4 bg-slate-900/60 rounded-xl border border-slate-800/80">
+            <h3 class="font-bold text-white text-sm mb-1">B. Analytics & Future Consent Management</h3>
+            <p class="text-xs text-slate-400">
+              We may utilize audience measurement and web analytics tools (such as Google Analytics) to understand aggregate traffic patterns and improve performance across Australian networks. Where required by applicable privacy laws, a Consent Management Platform (CMP) will request your consent prior to setting non-essential analytics or advertising cookies.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Third-Party Links & Streams -->
+      <section class="space-y-3">
+        <h2 class="text-xl font-bold text-white">4. External Streaming Portals</h2>
+        <p>
+          Our TV guide includes direct links to official Australian Broadcaster Video-on-Demand (BVOD) platforms (including 7plus, 9Now, 10 Play, ABC iview, and SBS On Demand). When you click "Watch Live TV" to open an external network stream, you are redirected to the respective broadcaster's official site, which operates under its own privacy and cookie policies.
+        </p>
+      </section>
+
+      <!-- Changes -->
+      <section class="space-y-3">
+        <h2 class="text-xl font-bold text-white">5. Updates to This Policy</h2>
+        <p>
+          We may update this Privacy & Cookie Policy from time to time. Any modifications will be posted directly on this page with an updated revision date.
+        </p>
+        <p>
+          For any inquiries, feedback, or data requests, write to <a href="mailto:tv@aussietvtonight.com" class="text-amber-400 hover:underline font-medium">tv@aussietvtonight.com</a>.
+        </p>
+      </section>
     </div>
   </main>
   <Footer />

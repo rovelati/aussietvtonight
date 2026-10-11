@@ -4,16 +4,63 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 
 const pageTitle = "Terms of Service | Aussie TV Tonight";
-const pageDesc = "Terms of service for aussietvtonight.com";
+const pageDesc = "Terms of service for aussietvtonight.com. Australian Freeview TV guide information.";
 ---
 
 <BaseLayout title={pageTitle} description={pageDesc}>
   <Header />
   <main class="flex-1 max-w-4xl mx-auto px-4 py-12 text-slate-300">
-    <h1 class="text-3xl font-extrabold text-white mb-6">Terms of Service</h1>
-    <div class="space-y-4 text-sm leading-relaxed">
-      <p>Welcome to <strong>aussietvtonight.com</strong>. By accessing our TV guide, you agree to these terms.</p>
-      <p>TV schedules are compiled for informational convenience. Broadcast networks may alter program schedules at their discretion.</p>
+    <div class="border-b border-slate-800 pb-6 mb-8">
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+        Terms of Service
+      </h1>
+      <p class="text-sm text-slate-400 mt-2">
+        Last updated: October 2026 • aussietvtonight.com
+      </p>
+    </div>
+
+    <div class="space-y-8 text-sm leading-relaxed">
+      <section class="space-y-3">
+        <h2 class="text-xl font-bold text-white">1. Service Overview</h2>
+        <p>
+          Welcome to <strong>aussietvtonight.com</strong>. By accessing or using our website, you agree to comply with and be bound by these Terms of Service.
+        </p>
+        <p>
+          Aussie TV Tonight is an independent digital program guide providing free schedule listings for Australian Freeview television channels (Seven Network, Nine Network, Network 10, ABC, SBS, and associated digital multi-channels).
+        </p>
+      </section>
+
+      <section class="space-y-3">
+        <h2 class="text-xl font-bold text-white">2. Schedule Accuracy & Disclaimers</h2>
+        <p>
+          All program times, descriptions, and episode information are compiled for informational convenience based on publicly published broadcast schedules. Broadcasters reserve the right to alter, delay, preempt, or substitute programming without prior notice (such as breaking news or live sporting events).
+        </p>
+        <p>
+          Aussie TV Tonight is not liable for any discrepancies between published schedules and actual broadcast transmissions.
+        </p>
+      </section>
+
+      <section class="space-y-3">
+        <h2 class="text-xl font-bold text-white">3. Intellectual Property & Trademarks</h2>
+        <p>
+          Network logos, channel names, show titles, and associated promotional artwork are the property and trademarks of their respective broadcast networks (Seven Network, Nine Entertainment, Paramount ANZ / Network 10, Australian Broadcasting Corporation, Special Broadcasting Service). They are used on this website under fair use for identification and indexing purposes only.
+        </p>
+      </section>
+
+      <section class="space-y-3 bg-slate-900 border border-slate-800 rounded-2xl p-6">
+        <h2 class="text-xl font-bold text-white flex items-center gap-2">
+          <span>📬</span>
+          <span>Contact Us</span>
+        </h2>
+        <p>
+          For questions regarding these Terms of Service, editorial suggestions, or channel inquiries, please contact our team at:
+        </p>
+        <p class="text-base font-semibold text-amber-400">
+          <a href="mailto:tv@aussietvtonight.com" class="hover:underline flex items-center gap-2">
+            <span>✉️</span> tv@aussietvtonight.com
+          </a>
+        </p>
+      </section>
     </div>
   </main>
   <Footer />
