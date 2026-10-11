@@ -1,57 +1,71 @@
 /**
- * URL delle pagine di live streaming ufficiali per ogni canale tedesco.
+ * Official Australian Live Streams and Catch-up Video On Demand (BVOD) Portals.
  *
- * login_required: la diretta richiede account
- * geo_de: accessibile solo da IP tedeschi
+ * Major Free-To-Air BVOD apps in Australia:
+ * - 7plus (Seven Network)
+ * - 9Now (Nine Network)
+ * - 10 Play (Network 10)
+ * - ABC iview (Australian Broadcasting Corporation)
+ * - SBS On Demand (Special Broadcasting Service)
  */
 
-export interface ChannelStream {
-  url: string;
-  login_required: boolean;
-  geo_de: boolean;
-  label?: string;
-}
+export const AU_LIVE_STREAMS: Record<string, string> = {
+  // Seven Network (7plus)
+  'seven': 'https://7plus.com.au/live-tv',
+  '7two': 'https://7plus.com.au/live-tv?channel-id=7Two',
+  '7mate': 'https://7plus.com.au/live-tv?channel-id=7mate',
+  '7flix': 'https://7plus.com.au/live-tv?channel-id=7flix',
 
-const CHANNEL_STREAMS: Record<string, ChannelStream> = {
-  // ── ARD / ZDF / ÖR (gratuiti, geo-DE) ──────────────────────────────────────
-  'das-erste':  { url: 'https://www.daserste.de/live/index.html',        login_required: false, geo_de: true,  label: 'Das Erste' },
-  'zdf':        { url: 'https://www.zdf.de/live-tv',                     login_required: false, geo_de: true,  label: 'ZDF' },
-  'zdf-neo':    { url: 'https://www.zdf.de/live-tv',                     login_required: false, geo_de: true,  label: 'ZDF' },
-  'zdfinfo':    { url: 'https://www.zdf.de/live-tv',                     login_required: false, geo_de: true,  label: 'ZDF' },
-  'phoenix':    { url: 'https://www.phoenix.de/livestream.html',         login_required: false, geo_de: true,  label: 'Phoenix' },
-  '3sat':       { url: 'https://www.3sat.de/programm',                   login_required: false, geo_de: false, label: '3sat' },
-  'arte':       { url: 'https://www.arte.tv/de/live',                    login_required: false, geo_de: false, label: 'ARTE' },
-  'kika':       { url: 'https://www.kika.de/livestream',                 login_required: false, geo_de: true,  label: 'KiKA' },
-  'ard-alpha':  { url: 'https://www.ardmediathek.de/live',               login_required: false, geo_de: true,  label: 'ARD Mediathek' },
-  'one':        { url: 'https://www.ardmediathek.de/live',               login_required: false, geo_de: true,  label: 'ARD Mediathek' },
-  'tagesschau24':{ url: 'https://www.tagesschau.de/multimedia/livestreams/index.html', login_required: false, geo_de: false, label: 'Tagesschau24' },
+  // Nine Network (9Now)
+  'channel-9': 'https://www.9now.com.au/live/channel-9',
+  '9gem': 'https://www.9now.com.au/live/9gem',
+  '9go': 'https://www.9now.com.au/live/9go',
+  '9life': 'https://www.9now.com.au/live/9life',
+  '9rush': 'https://www.9now.com.au/live/9rush',
 
-  // ── RTL-Gruppe (RTL+ / RTL) ───────────────────────────────────────────────
-  'rtl':        { url: 'https://plus.rtl.de/',                           login_required: true,  geo_de: true,  label: 'RTL+' },
-  'rtl2':       { url: 'https://plus.rtl.de/',                           login_required: true,  geo_de: true,  label: 'RTL+' },
-  'vox':        { url: 'https://plus.rtl.de/',                           login_required: true,  geo_de: true,  label: 'RTL+' },
-  'nitro':      { url: 'https://plus.rtl.de/',                           login_required: true,  geo_de: true,  label: 'RTL+' },
-  'super-rtl':  { url: 'https://plus.rtl.de/',                           login_required: true,  geo_de: true,  label: 'RTL+' },
-  'ntv':        { url: 'https://www.n-tv.de/mediathek/livestream/',      login_required: false, geo_de: false, label: 'ntv' },
-  'n-tv':       { url: 'https://www.n-tv.de/mediathek/livestream/',      login_required: false, geo_de: false, label: 'ntv' },
+  // Network 10 (10 Play)
+  '10': 'https://10play.com.au/live/ten',
+  '10-drama': 'https://10play.com.au/live/bold',
+  '10-comedy': 'https://10play.com.au/live/peach',
+  'nickelodeon': 'https://10play.com.au/live/nickelodeon',
 
-  // ── ProSiebenSat.1 (Joyn — login gratuito) ──────────────────────────────
-  'sat1':       { url: 'https://www.sat1.de/live',                      login_required: false, geo_de: true,  label: 'SAT.1' },
-  'prosieben':  { url: 'https://www.prosieben.de/live',                  login_required: false, geo_de: true,  label: 'ProSieben' },
-  'kabel-eins': { url: 'https://www.kabeleins.de/live',                  login_required: false, geo_de: true,  label: 'Kabel Eins' },
-  'sixx':       { url: 'https://www.sixx.de/live',                       login_required: false, geo_de: true,  label: 'sixx' },
+  // ABC (ABC iview)
+  'abc-tv': 'https://iview.abc.net.au/channel/abctv',
+  'abc-kids': 'https://iview.abc.net.au/channel/abckids',
+  'abc-tv-plus': 'https://iview.abc.net.au/channel/abctvplus',
+  'abc-entertains': 'https://iview.abc.net.au/channel/abcme',
+  'abc-news': 'https://iview.abc.net.au/channel/news24',
 
-  // ── Nachrichtenkanäle ────────────────────────────────────────────────────
-  'welt':       { url: 'https://www.welt.de/tv-programm-live-stream/',   login_required: false, geo_de: false, label: 'WELT' },
-
-  // ── Sport ────────────────────────────────────────────────────────────────
-  'sport1':     { url: 'https://www.sport1.de/liveticker/livestream',    login_required: false, geo_de: true,  label: 'SPORT1' },
-
-  // ── Tele 5 ───────────────────────────────────────────────────────────────
-  'tele5':      { url: 'https://tele5.de/',                              login_required: false, geo_de: true,  label: 'Tele 5' },
+  // SBS (SBS On Demand)
+  'sbs': 'https://www.sbs.com.au/ondemand/live/sbs',
+  'sbs-viceland': 'https://www.sbs.com.au/ondemand/live/sbs-viceland',
+  'sbs-world-movies': 'https://www.sbs.com.au/ondemand/live/sbs-world-movies',
+  'sbs-food': 'https://www.sbs.com.au/ondemand/live/sbs-food',
+  'nitv': 'https://www.sbs.com.au/ondemand/live/nitv',
 };
 
-/** Ritorna i dati di streaming per un channel_id, o null se non disponibile. */
-export function getChannelStream(channelId: string): ChannelStream | null {
-  return CHANNEL_STREAMS[channelId] ?? null;
-}
+export const AU_CHANNEL_WEBSITES: Record<string, string> = {
+  'seven': 'https://7plus.com.au',
+  '7two': 'https://7plus.com.au',
+  '7mate': 'https://7plus.com.au',
+  '7flix': 'https://7plus.com.au',
+  'channel-9': 'https://www.9now.com.au',
+  '9gem': 'https://www.9now.com.au',
+  '9go': 'https://www.9now.com.au',
+  '9life': 'https://www.9now.com.au',
+  '9rush': 'https://www.9now.com.au',
+  '10': 'https://10play.com.au',
+  '10-drama': 'https://10play.com.au',
+  '10-comedy': 'https://10play.com.au',
+  'nickelodeon': 'https://10play.com.au',
+  'abc-tv': 'https://iview.abc.net.au',
+  'abc-kids': 'https://iview.abc.net.au',
+  'abc-tv-plus': 'https://iview.abc.net.au',
+  'abc-entertains': 'https://iview.abc.net.au',
+  'abc-news': 'https://iview.abc.net.au',
+  'sbs': 'https://www.sbs.com.au/ondemand',
+  'sbs-viceland': 'https://www.sbs.com.au/ondemand',
+  'sbs-world-movies': 'https://www.sbs.com.au/ondemand',
+  'sbs-food': 'https://www.sbs.com.au/ondemand',
+  'nitv': 'https://www.sbs.com.au/ondemand',
+};
