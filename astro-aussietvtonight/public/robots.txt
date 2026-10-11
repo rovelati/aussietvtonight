@@ -1,4 +1,9 @@
 User-agent: *
 Allow: /
 
+# Exclude non-content and utility pages
+Disallow: /404/
+Disallow: /privacy/
+Disallow: /terms/
+
 Sitemap: https://aussietvtonight.com/sitemap-index.xml
