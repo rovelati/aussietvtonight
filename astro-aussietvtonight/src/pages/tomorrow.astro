@@ -65,9 +65,18 @@ try {
 const pageTitle = "Tomorrow's TV Guide Australia | What's on TV Tomorrow Freeview";
 const pageDesc = "Plan ahead with tomorrow's Australian TV guide. Check prime time schedules starting at 7:30 PM, movies, and shows across Channel 7, Nine, 10, ABC, and SBS.";
 const keywords = "tomorrow tv guide australia, what's on tv tomorrow, freeview tv guide tomorrow, tomorrow night tv guide, australia tv guide tomorrow";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "TVGuide",
+  "name": "Tomorrow's TV Guide Australia",
+  "url": "https://aussietvtonight.com/tomorrow/",
+  "description": pageDesc,
+  "inLanguage": "en-AU"
+};
 ---
 
-<BaseLayout title={pageTitle} description={pageDesc} keywords={keywords}>
+<BaseLayout title={pageTitle} description={pageDesc} keywords={keywords} jsonLd={jsonLd}>
   <Header />
 
   <main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">

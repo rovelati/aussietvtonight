@@ -83,8 +83,17 @@ import '../styles/global.css';
     <link rel="preconnect" href="https://image.pr.sbsod.com" crossorigin />
 
     <!-- Structured Data (JSON-LD) -->
-    {jsonLd && (
+    {jsonLd ? (
       <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    ) : (
+      <script type="application/ld+json" set:html={JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": title,
+        "url": canonicalUrl,
+        "description": description,
+        "inLanguage": "en-AU"
+      })} />
     )}
   </head>
   <body class="min-h-screen flex flex-col bg-slate-950 font-sans selection:bg-amber-400 selection:text-slate-950">

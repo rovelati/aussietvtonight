@@ -88,9 +88,30 @@ try {
 const pageTitle = "What's on TV Right Now in Australia | Live Freeview TV Guide";
 const pageDesc = "Live TV guide for Australia. See what is currently airing on Channel 7, Nine, 10, ABC, and SBS right now with real-time schedules and progress.";
 const keywords = "what's on tv right now, on tv now australia, live tv guide australia, what's on tv now, freeview on now australia";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "What's on TV Right Now in Australia",
+  "itemListElement": onNowItems.slice(0, 10).map((it, idx) => ({
+    "@type": "ListItem",
+    "position": idx + 1,
+    "item": {
+      "@type": "BroadcastEvent",
+      "name": it.currentProgram.title,
+      "description": it.currentProgram.description,
+      "startDate": it.currentProgram.start_time,
+      "endDate": it.currentProgram.end_time,
+      "location": {
+        "@type": "BroadcastService",
+        "name": it.channel.name
+      }
+    }
+  }))
+};
 ---
 
-<BaseLayout title={pageTitle} description={pageDesc} keywords={keywords}>
+<BaseLayout title={pageTitle} description={pageDesc} keywords={keywords} jsonLd={jsonLd}>
   <Header />
 
   <main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
