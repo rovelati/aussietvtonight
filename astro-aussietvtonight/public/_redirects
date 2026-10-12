@@ -12,6 +12,14 @@
 /films/                /movies-tonight/     301
 /cinema                /movies-tonight/     301
 /cinema/               /movies-tonight/     301
+/sport                 /sport-tonight/      301
+/sport/                /sport-tonight/      301
+/sports                /sport-tonight/      301
+/sports/               /sport-tonight/      301
+/shows                 /shows-tonight/      301
+/shows/                /shows-tonight/      301
+/series                /shows-tonight/      301
+/series/               /shows-tonight/      301
 /now                   /on-now/             301
 /now/                  /on-now/             301
 /live                  /on-now/             301

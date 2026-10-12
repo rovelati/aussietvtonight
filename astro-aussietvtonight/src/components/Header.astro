@@ -9,6 +9,8 @@ const currentPath = Astro.url.pathname;
 const isTonight = currentPath === '/' || currentPath === '/tonight/';
 const isOnNow = currentPath === '/on-now/';
 const isMovies = currentPath === '/movies-tonight/';
+const isSport = currentPath === '/sport-tonight/';
+const isShows = currentPath === '/shows-tonight/';
 const isTomorrow = currentPath === '/tomorrow/';
 ---
 
@@ -62,7 +64,29 @@ const isTomorrow = currentPath === '/tomorrow/';
               : 'text-slate-300 hover:text-white hover:bg-slate-800'
           }`}
         >
-          🍿 Movies Tonight
+          🍿 Movies
+        </a>
+
+        <a 
+          href="/sport-tonight/" 
+          class={`px-3 py-2 rounded-lg transition-colors ${
+            isSport 
+              ? 'bg-amber-400 text-slate-950 font-bold shadow-sm' 
+              : 'text-slate-300 hover:text-white hover:bg-slate-800'
+          }`}
+        >
+          🏉 Sport
+        </a>
+
+        <a 
+          href="/shows-tonight/" 
+          class={`px-3 py-2 rounded-lg transition-colors ${
+            isShows 
+              ? 'bg-amber-400 text-slate-950 font-bold shadow-sm' 
+              : 'text-slate-300 hover:text-white hover:bg-slate-800'
+          }`}
+        >
+          📺 TV Shows
         </a>
 
         <a 
@@ -97,29 +121,41 @@ const isTomorrow = currentPath === '/tomorrow/';
     </div>
 
     <!-- Mobile Sub-Navigation -->
-    <div class="flex md:hidden items-center justify-around py-2.5 border-t border-slate-800/80 text-xs font-medium">
+    <div class="flex md:hidden items-center justify-between overflow-x-auto no-scrollbar py-2 border-t border-slate-800/80 text-xs font-medium gap-1 px-1">
       <a 
         href="/" 
-        class={`px-2.5 py-1.5 rounded-md ${isTonight ? 'bg-amber-400 text-slate-950 font-bold' : 'text-slate-300'}`}
+        class={`px-2 py-1.5 rounded-md whitespace-nowrap ${isTonight ? 'bg-amber-400 text-slate-950 font-bold' : 'text-slate-300'}`}
       >
         🌙 Tonight
       </a>
       <a 
         href="/on-now/" 
-        class={`px-2.5 py-1.5 rounded-md flex items-center gap-1 ${isOnNow ? 'bg-amber-400 text-slate-950 font-bold' : 'text-slate-300'}`}
+        class={`px-2 py-1.5 rounded-md whitespace-nowrap flex items-center gap-1 ${isOnNow ? 'bg-amber-400 text-slate-950 font-bold' : 'text-slate-300'}`}
       >
         <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
         On Now
       </a>
       <a 
         href="/movies-tonight/" 
-        class={`px-2.5 py-1.5 rounded-md ${isMovies ? 'bg-amber-400 text-slate-950 font-bold' : 'text-slate-300'}`}
+        class={`px-2 py-1.5 rounded-md whitespace-nowrap ${isMovies ? 'bg-amber-400 text-slate-950 font-bold' : 'text-slate-300'}`}
       >
         🍿 Movies
       </a>
       <a 
+        href="/sport-tonight/" 
+        class={`px-2 py-1.5 rounded-md whitespace-nowrap ${isSport ? 'bg-amber-400 text-slate-950 font-bold' : 'text-slate-300'}`}
+      >
+        🏉 Sport
+      </a>
+      <a 
+        href="/shows-tonight/" 
+        class={`px-2 py-1.5 rounded-md whitespace-nowrap ${isShows ? 'bg-amber-400 text-slate-950 font-bold' : 'text-slate-300'}`}
+      >
+        📺 Shows
+      </a>
+      <a 
         href="/tomorrow/" 
-        class={`px-2.5 py-1.5 rounded-md ${isTomorrow ? 'bg-amber-400 text-slate-950 font-bold' : 'text-slate-300'}`}
+        class={`px-2 py-1.5 rounded-md whitespace-nowrap ${isTomorrow ? 'bg-amber-400 text-slate-950 font-bold' : 'text-slate-300'}`}
       >
         📅 Tomorrow
       </a>

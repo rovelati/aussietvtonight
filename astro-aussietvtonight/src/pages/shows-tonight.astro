@@ -1,0 +1,237 @@
+---
+/**
+ * TV Shows Tonight — Aussie TV Tonight
+ * Highly searched queries: what shows are on tv tonight australia, tv shows on tv tonight, reality tv tonight
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ProgramOverlay from '../components/ProgramOverlay.astro';
+import { fetchChannels, fetchProgramsForDate } from '../lib/epg';
+import { getTodayInAustralia, formatDateAU, formatTimeAU, getAustralianHour } from '../utils/timeSlots';
+import { normCid } from '../utils/channelSlug';
+import { isTvShow } from '../utils/programClassifier';
+import { getFallbackImageForProgram } from '../utils/programImages';
+import type { Channel, Program } from '../types';
+
+const today = getTodayInAustralia();
+const dateLabel = formatDateAU(today);
+
+interface ShowListing {
+  program: Program;
+  channel: Channel;
+  slug: string;
+}
+
+let showsTonight: ShowListing[] = [];
+
+try {
+  const [channels, allPrograms] = await Promise.all([
+    fetchChannels(),
+    fetchProgramsForDate(today),
+  ]);
+
+  const channelMap = new Map<string, Channel>();
+  for (const ch of channels) {
+    channelMap.set(normCid(ch.id), ch);
+  }
+
+  for (const prog of allPrograms) {
+    const slug = normCid(prog.channel_id ?? '');
+    if (slug === 'abc-news' || slug === 'sbs-world-movies') continue;
+    const ch = channelMap.get(slug);
+    if (!ch) continue;
+
+    const startMs = new Date(prog.start_time).getTime();
+    const endMs = new Date(prog.end_time).getTime();
+    const durationMinutes = Math.round((endMs - startMs) / (60 * 1000));
+
+    // Australian evening and prime time hours (18:00 to 02:30 next morning)
+    const hour = getAustralianHour(prog.start_time, 'Australia/Sydney');
+    const isEvening = hour >= 18 || hour <= 2;
+
+    if (isEvening && isTvShow(prog.category, prog.title, prog.description, durationMinutes)) {
+      showsTonight.push({
+        program: prog,
+        channel: ch,
+        slug,
+      });
+    }
+  }
+
+  // Sort chronologically by start time
+  showsTonight.sort((a, b) => new Date(a.program.start_time).getTime() - new Date(b.program.start_time).getTime());
+} catch (err) {
+  console.error('[shows-tonight.astro] Error fetching TV shows:', err);
+}
+
+const pageTitle = "TV Shows on TV Tonight Australia | Freeview Series & Drama Guide";
+const pageDesc = "Find all TV shows, reality formats, and dramas on TV tonight across Channel 7, Nine, 10, ABC, and SBS. Full schedules for prime time television.";
+const keywords = "tv shows on tv tonight, what shows are on tv tonight australia, reality tv tonight australia, tv series tonight australia, freeview shows tonight";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "TV Shows on TV Tonight in Australia",
+  "itemListElement": showsTonight.slice(0, 10).map((s, idx) => ({
+    "@type": "ListItem",
+    "position": idx + 1,
+    "item": {
+      "@type": "TVEpisode",
+      "name": s.program.title,
+      "description": s.program.description,
+      "startDate": s.program.start_time,
+      "location": {
+        "@type": "BroadcastService",
+        "name": s.channel.name
+      }
+    }
+  }))
+};
+---
+
+<BaseLayout title={pageTitle} description={pageDesc} keywords={keywords} jsonLd={jsonLd}>
+  <Header />
+
+  <main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+    <div class="mb-8 border-b border-slate-800 pb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
+      <div>
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-400/10 border border-cyan-400/20 text-cyan-400 text-xs font-semibold mb-3">
+          <span>📺 Series, Reality & Drama</span>
+          <span>•</span>
+          <span>{dateLabel}</span>
+        </div>
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+          TV Shows on TV <span class="text-cyan-400">Tonight</span> in Australia
+        </h1>
+        <p class="text-base text-slate-400 mt-2 max-w-2xl">
+          Prime time reality, dramas, comedies, and entertainment series airing tonight across Australian Freeview networks ({showsTonight.length} shows scheduled).
+        </p>
+      </div>
+
+      <div class="flex items-center gap-2 flex-wrap">
+        <a 
+          href="/" 
+          class="px-4 py-2 rounded-xl bg-slate-850 hover:bg-slate-800 border border-slate-700 text-slate-200 text-xs font-bold transition-colors"
+        >
+          🌙 Tonight (7:30 PM)
+        </a>
+        <a 
+          href="/movies-tonight/" 
+          class="px-4 py-2 rounded-xl bg-slate-850 hover:bg-slate-800 border border-slate-700 text-slate-200 text-xs font-bold transition-colors"
+        >
+          🍿 Movies Tonight
+        </a>
+        <a 
+          href="/sport-tonight/" 
+          class="px-4 py-2 rounded-xl bg-slate-850 hover:bg-slate-800 border border-slate-700 text-slate-200 text-xs font-bold transition-colors"
+        >
+          🏉 Sport Tonight
+        </a>
+      </div>
+    </div>
+
+    <!-- Shows Grid -->
+    {showsTonight.length === 0 ? (
+      <div class="bg-slate-900 border border-slate-800 rounded-3xl p-12 text-center max-w-xl mx-auto my-12">
+        <span class="text-5xl mb-4 block">📺</span>
+        <h2 class="text-xl font-bold text-white mb-2">No TV Series Scheduled Tonight</h2>
+        <p class="text-sm text-slate-400 mb-6">
+          Check out tonight's full prime time schedules and movies on Freeview Australia.
+        </p>
+        <a href="/" class="px-5 py-2.5 rounded-xl bg-amber-400 text-slate-950 font-bold text-sm hover:bg-amber-300 transition-colors">
+          Tonight's Schedule →
+        </a>
+      </div>
+    ) : (
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {showsTonight.map(({ program, channel, slug }) => {
+          const timeFormatted = formatTimeAU(program.start_time);
+          const endTimeFormatted = formatTimeAU(program.end_time);
+
+          return (
+            <div 
+              class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-slate-700 transition-all duration-200 shadow-lg flex flex-col group cursor-pointer"
+              data-program-id={program.id}
+              data-title={program.title}
+              data-desc={program.description}
+              data-category={program.category}
+              data-start={program.start_time}
+              data-end={program.end_time}
+              data-rating={program.rating}
+              data-image={program.image_url}
+              data-channel-slug={slug}
+              data-channel-name={channel.name}
+              data-channel-logo={channel.logo}
+              onclick="openProgramModal(this)"
+            >
+              {program.image_url && (
+                <div class="w-full h-44 bg-slate-850 overflow-hidden relative">
+                  <img 
+                    src={program.image_url} 
+                    alt={program.title} 
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    loading="lazy"
+                    onerror={`this.onerror=null; this.src='${getFallbackImageForProgram(program.title, program.category)}';`}
+                  />
+                  <div class="absolute top-3 left-3 bg-slate-950/80 backdrop-blur px-2.5 py-1 rounded-lg border border-slate-700/60 flex items-center gap-2">
+                    <img src={channel.logo} alt={channel.name} class="h-4 max-w-[60px] object-contain" />
+                    <span class="text-xs font-bold text-white">{channel.name}</span>
+                  </div>
+                  {program.rating && (
+                    <div class="absolute top-3 right-3 bg-slate-900/90 text-cyan-400 font-bold text-xs px-2 py-0.5 rounded border border-slate-700">
+                      {program.rating}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              <div class="p-5 flex-1 flex flex-col justify-between">
+                <div>
+                  <div class="flex items-center justify-between gap-2 mb-2">
+                    <div class="flex items-center gap-2">
+                      <span 
+                        class="text-xs font-bold font-mono px-2 py-0.5 rounded bg-cyan-400 text-slate-950"
+                        data-utc-start={program.start_time}
+                      >
+                        {timeFormatted}
+                      </span>
+                      <span class="text-xs text-slate-500 font-medium">
+                        until {endTimeFormatted}
+                      </span>
+                    </div>
+
+                    <span class="text-xs text-slate-400 font-medium">
+                      {channel.name}
+                    </span>
+                  </div>
+
+                  <h2 class="text-lg font-bold text-white group-hover:text-cyan-300 transition-colors line-clamp-1">
+                    {program.title}
+                  </h2>
+
+                  {program.sub_title && (
+                    <p class="text-xs text-slate-300 mt-1 font-medium">
+                      {program.sub_title}
+                    </p>
+                  )}
+
+                  <p class="text-xs text-slate-400 mt-2 line-clamp-3 leading-relaxed">
+                    {program.description || 'TV show broadcast on Freeview Australia.'}
+                  </p>
+                </div>
+
+                <div class="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between text-xs font-semibold text-cyan-400">
+                  <span>View Show Details →</span>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    )}
+  </main>
+
+  <ProgramOverlay />
+  <Footer />
+</BaseLayout>

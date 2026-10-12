@@ -134,3 +134,44 @@ export function isAustralianPrimeTime(startIso: string, stopIso?: string, tz: st
     return false;
   }
 }
+
+/**
+ * Checks whether a program falls within the broadcast day of targetDateStr (YYYY-MM-DD),
+ * starting at 04:00 AM on targetDateStr and extending to 04:00 AM the following morning (overrun).
+ */
+export function isCurrentBroadcastDay(startIso: string, targetDateStr: string, tz: string = 'Australia/Sydney'): boolean {
+  try {
+    const d = new Date(startIso);
+    const dateStr = new Intl.DateTimeFormat('en-CA', {
+      timeZone: tz,
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    }).format(d);
+
+    const hourStr = new Intl.DateTimeFormat('en-AU', {
+      timeZone: tz,
+      hour: 'numeric',
+      hour12: false,
+    }).format(d);
+    const hour = parseInt(hourStr, 10) || 0;
+
+    const targetParts = targetDateStr.split('-');
+    const nextDateObj = new Date(Date.UTC(Number(targetParts[0]), Number(targetParts[1]) - 1, Number(targetParts[2]) + 1));
+    const nextDateStr = nextDateObj.toISOString().slice(0, 10);
+
+    // Current broadcast day: today from 04:00 onwards
+    if (dateStr === targetDateStr) {
+      return hour >= 4;
+    }
+
+    // Overrun: next morning before 04:00
+    if (dateStr === nextDateStr) {
+      return hour < 4;
+    }
+
+    return false;
+  } catch {
+    return false;
+  }
+}

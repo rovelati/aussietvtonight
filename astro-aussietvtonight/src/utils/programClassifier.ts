@@ -61,9 +61,68 @@ export function isMovie(
   return false;
 }
 
+const SPORT_REGEX = /\b(afl|nrl|cricket|rugby|tennis|soccer|a-league|motorsport|supercars|f1|formula 1|basketball|nbl|golf|olympics|footy|horse racing|world cup|nfl)\b/i;
+
 export function isSport(category?: string | null, title?: string | null, desc?: string | null): boolean {
-  const text = `${category || ''} ${title || ''} ${desc || ''}`.toLowerCase();
-  if (category && category.toLowerCase().includes('sport')) return true;
-  const keywords = ['afl', 'nrl', 'cricket', 'rugby', 'tennis', 'soccer', 'a-league', 'motorsport', 'supercars', 'f1', 'formula 1', 'basketball', 'nbl', 'golf', 'olympics'];
-  return keywords.some(k => text.includes(k));
+  const cat = (category || '').toLowerCase();
+  if (cat.includes('sport') || cat.includes('football')) return true;
+  const t = title || '';
+  if (SPORT_REGEX.test(t)) return true;
+  // If description explicitly discusses a sporting match or league
+  const d = (desc || '').toLowerCase();
+  if (d.includes('live coverage of') || d.includes('round ') || d.includes('grand final') || d.includes('match') || d.includes('tournament')) {
+    if (SPORT_REGEX.test(d)) return true;
+  }
+  return false;
+}
+
+export function isTvShow(
+  category?: string | null,
+  title?: string | null,
+  desc?: string | null,
+  durationMinutes: number = 0
+): boolean {
+  const t = (title || '').trim().toLowerCase();
+  const d = (desc || '').toLowerCase();
+  const cat = (category || '').toLowerCase();
+
+  // Exclude infomercials / shopping
+  if (t.includes('home shopping') || t.includes('tv shop') || t.includes('shopping program') || d.includes('shopping program')) {
+    return false;
+  }
+
+  // Exclude standalone daily news bulletins and weather
+  if (cat === 'news' && (t.includes('news at') || t.includes('news bulletin') || t.includes('weather') || t.includes('national news') || t.includes('early news'))) {
+    return false;
+  }
+
+  // Exclude movies
+  if (isMovie(category, title, desc, null, durationMinutes)) {
+    return false;
+  }
+
+  // Exclude sport
+  if (isSport(category, title, desc)) {
+    return false;
+  }
+
+  // Known series titles
+  for (const s of KNOWN_SERIES_TITLES) {
+    if (t.includes(s)) return true;
+  }
+
+  // Drama / Comedy are TV shows
+  if (cat.includes('drama') || cat.includes('comedy')) return true;
+
+  // Episodic markers
+  if (d.includes('episode') || d.includes('season') || d.includes('series') || d.includes('contestants') || d.includes('hosted by') || d.includes('investigate')) {
+    return true;
+  }
+
+  // Reality / Entertainment formats under Special Interest
+  if (cat.includes('special interest') && (d.includes('compete') || d.includes('challenge') || d.includes('quiz') || d.includes('game') || d.includes('chef') || d.includes('cook') || d.includes('renovat'))) {
+    return true;
+  }
+
+  return false;
 }

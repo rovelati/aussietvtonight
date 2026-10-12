@@ -9,7 +9,7 @@ import Footer from '../components/Footer.astro';
 import ProgramOverlay from '../components/ProgramOverlay.astro';
 import BookmarkButton from '../components/BookmarkButton.astro';
 import { fetchChannels, fetchProgramsForDate } from '../lib/epg';
-import { getTodayInAustralia, formatDateAU, formatTimeAU } from '../utils/timeSlots';
+import { getTodayInAustralia, formatDateAU, formatTimeAU, isCurrentBroadcastDay } from '../utils/timeSlots';
 import { normCid } from '../utils/channelSlug';
 import { filterRealPrograms } from '../utils/channelFilters';
 import { getFallbackImageForProgram } from '../utils/programImages';
@@ -33,7 +33,7 @@ let programs: Program[] = [];
 try {
   const allPrograms = await fetchProgramsForDate(today);
   programs = filterRealPrograms(
-    allPrograms.filter(p => normCid(p.channel_id ?? '') === sender)
+    allPrograms.filter(p => normCid(p.channel_id ?? '') === sender && isCurrentBroadcastDay(p.start_time, today))
   ).sort((a, b) => new Date(a.start_time).getTime() - new Date(b.start_time).getTime());
 } catch (err) {
   console.error(`[sender.astro] Error loading programs for ${sender}:`, err);

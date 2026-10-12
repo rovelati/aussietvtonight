@@ -9,6 +9,8 @@ export const GET: APIRoute = async () => {
     { loc: `${baseUrl}/`, priority: '1.0', changefreq: 'hourly' },
     { loc: `${baseUrl}/tomorrow/`, priority: '0.9', changefreq: 'daily' },
     { loc: `${baseUrl}/movies-tonight/`, priority: '0.9', changefreq: 'daily' },
+    { loc: `${baseUrl}/sport-tonight/`, priority: '0.9', changefreq: 'daily' },
+    { loc: `${baseUrl}/shows-tonight/`, priority: '0.9', changefreq: 'daily' },
     { loc: `${baseUrl}/on-now/`, priority: '0.8', changefreq: 'hourly' },
     ...MAJOR_AU_ORDER.map(slug => ({
       loc: `${baseUrl}/${slug}/`,
