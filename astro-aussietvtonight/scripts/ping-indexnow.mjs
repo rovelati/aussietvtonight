@@ -10,7 +10,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const HOST = 'aussietvtonight.com';
-const KEY = '211149cc9ea6e1474b4a1881220eef9b';
+const KEY = '14ccfafe37144708a4d3c8e34b5e4a08';
 const KEY_LOCATION = `https://${HOST}/${KEY}.txt`;
 const ENDPOINTS = [
   'https://api.indexnow.org/indexnow',
