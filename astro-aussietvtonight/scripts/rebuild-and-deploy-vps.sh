@@ -1,10 +1,10 @@
 #!/bin/bash
-# Build fernsehheute Astro on Contabo (Postgres locale) + deploy Cloudflare Pages
+# Build aussietvtonight Astro + deploy Cloudflare Pages
 set -euo pipefail
 
-ASTRO_DIR="${ASTRO_DIR:-/var/www/fernsehheute.de/astro}"
-LOG="${LOG:-/var/log/fernsehheute-astro-rebuild.log}"
-CF_PROJECT="${CF_PROJECT:-fernsehheute}"
+ASTRO_DIR="${ASTRO_DIR:-/var/www/aussietvtonight.com/astro}"
+LOG="${LOG:-/var/log/aussietvtonight-rebuild.log}"
+CF_PROJECT="${CF_PROJECT:-aussietvtonight}"
 
 log() { echo "[$(date '+%Y-%m-%d %H:%M:%S')] $*" | tee -a "$LOG"; }
 
@@ -28,16 +28,10 @@ if [ ! -f .env ]; then
   exit 1
 fi
 
-load_env DATABASE_URL
 load_env CF_API_KEY
 load_env CF_API_EMAIL
 load_env CF_ACCOUNT_ID
 load_env SITE_URL
-
-if [ -z "${DATABASE_URL:-}" ]; then
-  log "ERROR: DATABASE_URL not set in .env"
-  exit 1
-fi
 
 log "Starting Astro build..."
 npm install 2>&1 | tee -a "$LOG"
@@ -48,7 +42,7 @@ if [ ! -f dist/index.html ]; then
   exit 1
 fi
 
-if ! grep -qiE 'Fernseh|Sender|Programm|heute' dist/index.html; then
+if ! grep -qiE 'Aussie|Tonight|Freeview' dist/index.html; then
   log "ERROR: homepage content looks empty/broken"
   exit 1
 fi
@@ -68,10 +62,6 @@ log "Deploying to Cloudflare Pages project=$CF_PROJECT ..."
 npx --yes wrangler@4 pages deploy dist \
   --project-name="$CF_PROJECT" \
   --branch=main \
-  --commit-dirty=true
+  --commit-dirty=true 2>&1 | tee -a "$LOG"
+
 log "Deploy complete"
-
-log "Submitting all canonical URLs to IndexNow (Bing)..."
-node scripts/ping-indexnow.mjs 2>&1 | tee -a "$LOG" || true
-
-log "Rebuild, deploy, and IndexNow sync finished successfully."

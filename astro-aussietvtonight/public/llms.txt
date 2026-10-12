@@ -1,41 +1,41 @@
-# fernsehheute.de
+# aussietvtonight.com
 
-> Das aktuelle deutsche TV-Programm von heute und heute Abend ab 20:15 Uhr für über 340 Fernsehsender in Deutschland, Österreich und der Schweiz (DACH-Region).
+> Australia's fastest, real-time Freeview TV Guide for Sydney, Melbourne, Brisbane, Adelaide, and Perth. Discover prime time schedules (7:30 PM), what's on TV right now, movies tonight, and live sports across Channel 7, Nine, 10, ABC, and SBS.
 
-## Hauptbereiche (Main Sections)
+## Main Sections
 
-- [TV-Programm Heute](https://fernsehheute.de/): Übersicht des gesamten heutigen Fernsehprogramms und Live-Sendungen.
-- [TV-Programm Morgen](https://fernsehheute.de/morgen/): Das Fernsehprogramm für morgen im Überblick.
-- [Spielfilme heute Abend ab 20:15](https://fernsehheute.de/film-heute-abend/): Alle Spielfilme, Blockbuster und Free-TV-Premieren zur Primetime.
-- [Serien heute Abend ab 20:15](https://fernsehheute.de/serien-heute-abend/): Alle Fernsehserien, Krimis und Sitcoms heute Abend.
-- [Sport heute Abend ab 20:15](https://fernsehheute.de/sport-heute-abend/): Live-Sportübertragungen, Fußball, Motorsport und Highlights.
+- [Australian TV Guide Tonight (7:30 PM)](https://aussietvtonight.com/): Discover prime time schedules starting at 7:30 PM across all Australian networks.
+- [What's on TV Right Now (Live TV)](https://aussietvtonight.com/on-now/): Real-time broadcast progress bars and live Australian television guide.
+- [Movies on TV Tonight](https://aussietvtonight.com/movies-tonight/): Complete guide to feature films and cinema broadcast on Australian free-to-air TV tonight.
+- [Live Sport on TV Tonight](https://aussietvtonight.com/sport-tonight/): AFL, NRL, Cricket, and live sports broadcasts on TV tonight in Australia.
+- [TV Shows & Series Tonight](https://aussietvtonight.com/shows-tonight/): Australian drama, reality TV, and entertainment series airing tonight.
+- [Tomorrow's TV Guide Australia](https://aussietvtonight.com/tomorrow/): Upcoming Australian TV schedule and prime time preview for tomorrow.
 
-## Beliebte Sender (Top German TV Channels)
+## Freeview Australia TV Channels
 
-- [Das Erste (ARD)](https://fernsehheute.de/das-erste/): Das Erste Fernsehprogramm heute, Tagesschau, Tatort und Mediathek.
-- [ZDF](https://fernsehheute.de/zdf/): ZDF heute, heute-show, ZDF Magazin Royale und aktuelle Sendungen.
-- [RTL](https://fernsehheute.de/rtl/): RTL TV-Programm heute, Shows, Magazine und Serien.
-- [SAT.1](https://fernsehheute.de/sat1/): SAT.1 Fernsehprogramm heute und Primetime 20:15 Uhr.
-- [ProSieben](https://fernsehheute.de/prosieben/): ProSieben TV-Programm heute, Serien, Blockbuster und Shows.
-- [VOX](https://fernsehheute.de/vox/): VOX TV-Programm heute, Kochshows, Dokus und Serien.
-- [RTLZWEI](https://fernsehheute.de/rtl2/): RTLZWEI TV-Programm heute und Reality-Formate.
-- [Kabel Eins](https://fernsehheute.de/kabel-eins/): Kabel Eins TV-Programm heute und Filmklassiker.
-- [ZDFneo](https://fernsehheute.de/zdf-neo/): ZDFneo TV-Programm heute, Krimis und internationale Serien.
-- [3sat](https://fernsehheute.de/3sat/): 3sat TV-Programm heute, Kultur, Dokumentationen und Wissenschaft.
-- [ARTE](https://fernsehheute.de/arte/): ARTE TV-Programm heute, europäische Kultur und Filmkunst.
-- [NITRO](https://fernsehheute.de/nitro/): NITRO TV-Programm heute, Action, Sitcoms und Live-Sport.
-- [Super RTL](https://fernsehheute.de/super-rtl/): Super RTL / TOGGO Kinder- und Familienprogramm.
-- [Tele 5](https://fernsehheute.de/tele5/): Tele 5 TV-Programm heute, Sci-Fi und Kultfilme.
-- [sixx](https://fernsehheute.de/sixx/): sixx TV-Programm heute, Lifestyle und Serien.
-- [SPORT1](https://fernsehheute.de/sport1/): SPORT1 TV-Programm heute und Live-Sport.
-- [SAT.1 Gold](https://fernsehheute.de/sat1-gold/): SAT.1 Gold TV-Programm heute und Kult-Serien.
-- [phoenix](https://fernsehheute.de/phoenix/): phoenix TV-Programm heute, Ereignis- und Dokumentationskanal von ARD und ZDF.
-- [Eurosport 1](https://fernsehheute.de/eurosport1/): Eurosport 1 TV-Programm heute und internationaler Spitzensport.
-- [Comedy Central](https://fernsehheute.de/comedy-central/): Comedy Central Programm heute und Serien.
-- [Disney Channel](https://fernsehheute.de/disney-channel/): Disney Channel TV-Programm heute für Kinder und Familien.
-- [Bibel TV](https://fernsehheute.de/bibeltv/): Bibel TV Programm heute.
-- [HSE](https://fernsehheute.de/hse24/): HSE Shopping-TV Programm heute.
+- [Channel 7](https://aussietvtonight.com/seven/): Seven Network TV guide, Home and Away, 7NEWS, AFL, and prime-time entertainment.
+- [7two](https://aussietvtonight.com/7two/): 7two TV schedule, classic dramas, British mysteries, and lifestyle programs.
+- [7mate](https://aussietvtonight.com/7mate/): 7mate TV guide, live sport, comedy, action films, and reality.
+- [7flix](https://aussietvtonight.com/7flix/): 7flix TV guide, movies, bingeable series, and comedies.
+- [Channel 9](https://aussietvtonight.com/channel-9/): Nine Network TV guide, 9News, A Current Affair, NRL, and Australian reality TV.
+- [9Gem](https://aussietvtonight.com/9gem/): 9Gem TV guide, classic cinema, British drama, and live cricket.
+- [9Go!](https://aussietvtonight.com/9go/): 9Go! TV guide, youth entertainment, animation, and blockbuster films.
+- [9Life](https://aussietvtonight.com/9life/): 9Life TV guide, home renovation, cooking, and international reality shows.
+- [9Rush](https://aussietvtonight.com/9rush/): 9Rush TV guide, high-adventure reality, motor shows, and documentaries.
+- [Network 10](https://aussietvtonight.com/10/): Network 10 TV guide, MasterChef, The Project, Australian Survivor, and news.
+- [10 Drama](https://aussietvtonight.com/10-drama/): 10 Drama TV guide, crime dramas, action, and popular US series.
+- [10 Comedy](https://aussietvtonight.com/10-comedy/): 10 Comedy TV guide, sitcoms, comedy specials, and entertainment.
+- [Nickelodeon](https://aussietvtonight.com/nickelodeon/): Nickelodeon on 10, animation, family programming, and kids series.
+- [ABC TV](https://aussietvtonight.com/abc-tv/): Australian Broadcasting Corporation flagship television, news, current affairs, and local drama.
+- [ABC Kids](https://aussietvtonight.com/abc-kids/): ABC Kids & Family TV guide, Bluey, Play School, and children's entertainment.
+- [ABC Entertains](https://aussietvtonight.com/abc-entertains/): ABC Entertains TV guide, comedy, music, and contemporary culture.
+- [ABC News](https://aussietvtonight.com/abc-news/): ABC News 24/7 continuous news, analysis, and breaking Australian reporting.
+- [SBS](https://aussietvtonight.com/sbs/): Special Broadcasting Service, international world news, world cinema, and multicultural documentaries.
+- [SBS VICELAND](https://aussietvtonight.com/sbs-viceland/): SBS Viceland TV guide, cutting-edge documentaries, cult cinema, and international comedy.
+- [SBS World Movies](https://aussietvtonight.com/sbs-world-movies/): 24/7 dedicated movie channel showcasing award-winning Australian and international cinema.
+- [SBS Food](https://aussietvtonight.com/sbs-food/): 24/7 culinary channel featuring world cuisines and masterchefs.
+- [NITV](https://aussietvtonight.com/nitv/): National Indigenous Television, First Nations voices, culture, and stories.
 
-## Sitemaps & Feeds
+## Sitemaps
 
-- [Sitemap Index](https://fernsehheute.de/sitemap-index.xml): XML-Sitemap aller 430+ Sender und Kategorieseiten.
+- [XML Sitemap](https://aussietvtonight.com/sitemap.xml): Direct sitemap indexing all Australian TV channels and hubs.
