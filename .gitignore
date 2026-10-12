@@ -9,3 +9,4 @@ NUOVO-SERVER.ssh
 .env*
 key-bing.env
 *.env
+.cloudflare-token
