@@ -43,6 +43,9 @@ import '../styles/global.css';
     <meta name="author" content={author} />
     <meta name="publisher" content={publisher} />
     <link rel="canonical" href={canonicalUrl} />
+    <link rel="alternate" hreflang="en-AU" href={canonicalUrl} />
+    <link rel="alternate" hreflang="x-default" href={canonicalUrl} />
+    <meta http-equiv="content-language" content="en-AU" />
 
     <!-- Microsoft Edge, Windows & Bing Verification -->
     <meta name="msvalidate.01" content="F5DABCFE31DB618797D7F6B92B67C3F1" />
@@ -52,11 +55,15 @@ import '../styles/global.css';
     <meta name="msapplication-config" content="/browserconfig.xml" />
     <meta name="msapplication-tap-highlight" content="no" />
 
-    <!-- Geo Targeting Australia -->
+    <!-- Australia Geo Targeting & Regional Signals -->
     <meta name="geo.region" content="AU" />
-    <meta name="geo.placename" content="Sydney, Melbourne, Brisbane, Adelaide, Perth" />
-    <meta name="geo.position" content="-33.8688;151.2093" />
-    <meta name="ICBM" content="-33.8688, 151.2093" />
+    <meta name="geo.country" content="Australia" />
+    <meta name="geo.placename" content="Australia (Sydney, Melbourne, Brisbane, Adelaide, Perth)" />
+    <meta name="geo.position" content="-25.2744;133.7751" />
+    <meta name="ICBM" content="-25.2744, 133.7751" />
+    <meta name="coverage" content="Australia" />
+    <meta name="target" content="Australia" />
+    <meta name="distribution" content="Australia" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
@@ -66,6 +73,7 @@ import '../styles/global.css';
     <meta property="og:image" content={ogImageUrl} />
     <meta property="og:site_name" content="Aussie TV Tonight" />
     <meta property="og:locale" content="en_AU" />
+    <meta property="og:country_name" content="Australia" />
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -97,7 +105,15 @@ import '../styles/global.css';
         "name": title,
         "url": canonicalUrl,
         "description": description,
-        "inLanguage": "en-AU"
+        "inLanguage": "en-AU",
+        "spatialCoverage": {
+          "@type": "Country",
+          "name": "Australia"
+        },
+        "areaServed": {
+          "@type": "Country",
+          "name": "Australia"
+        }
       })} />
     )}
   </head>

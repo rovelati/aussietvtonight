@@ -93,6 +93,17 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@type": "ItemList",
   "name": "What's on TV Right Now in Australia",
+  "inLanguage": "en-AU",
+  "spatialCoverage": {
+    "@type": "Country",
+    "name": "Australia",
+    "identifier": "AU"
+  },
+  "areaServed": {
+    "@type": "Country",
+    "name": "Australia",
+    "identifier": "AU"
+  },
   "itemListElement": onNowItems.slice(0, 10).map((it, idx) => ({
     "@type": "ListItem",
     "position": idx + 1,
@@ -102,9 +113,14 @@ const jsonLd = {
       "description": it.currentProgram.description,
       "startDate": it.currentProgram.start_time,
       "endDate": it.currentProgram.end_time,
+      "inLanguage": "en-AU",
       "location": {
         "@type": "BroadcastService",
-        "name": it.channel.name
+        "name": it.channel.name,
+        "areaServed": {
+          "@type": "Country",
+          "name": "Australia"
+        }
       }
     }
   }))

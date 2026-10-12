@@ -49,7 +49,25 @@ const jsonLd = {
   "name": channel.name,
   "url": `https://aussietvtonight.com/${sender}/`,
   "broadcastDisplayName": channel.name,
-  "inLanguage": "en-AU"
+  "inLanguage": "en-AU",
+  "spatialCoverage": {
+    "@type": "Country",
+    "name": "Australia",
+    "identifier": "AU"
+  },
+  "areaServed": {
+    "@type": "Country",
+    "name": "Australia",
+    "identifier": "AU"
+  },
+  "broadcaster": {
+    "@type": "Organization",
+    "name": channel.network,
+    "address": {
+      "@type": "PostalAddress",
+      "addressCountry": "AU"
+    }
+  }
 };
 ---
 

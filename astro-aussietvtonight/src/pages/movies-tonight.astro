@@ -71,6 +71,17 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@type": "ItemList",
   "name": "Movies on TV Tonight in Australia",
+  "inLanguage": "en-AU",
+  "spatialCoverage": {
+    "@type": "Country",
+    "name": "Australia",
+    "identifier": "AU"
+  },
+  "areaServed": {
+    "@type": "Country",
+    "name": "Australia",
+    "identifier": "AU"
+  },
   "itemListElement": moviesTonight.slice(0, 10).map((m, idx) => ({
     "@type": "ListItem",
     "position": idx + 1,
@@ -79,9 +90,14 @@ const jsonLd = {
       "name": m.program.title,
       "description": m.program.description,
       "startDate": m.program.start_time,
+      "inLanguage": "en-AU",
       "location": {
         "@type": "BroadcastService",
-        "name": m.channel.name
+        "name": m.channel.name,
+        "areaServed": {
+          "@type": "Country",
+          "name": "Australia"
+        }
       }
     }
   }))
