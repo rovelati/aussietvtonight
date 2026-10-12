@@ -6,3 +6,6 @@ dist/
 .new-server-passwd
 NUOVO-SERVER.ssh
 *.log
+.env*
+key-bing.env
+*.env
