@@ -1,15 +1,15 @@
 {
-  "name": "FernsehHeute — TV-Programm heute Abend",
-  "short_name": "FernsehHeute",
-  "description": "Aktuelles TV-Programm heute Abend in Deutschland mit allen Sendern, Spielfilmen, Serien und Sport ab 20:15 Uhr.",
+  "name": "Aussie TV Tonight — Freeview Australian TV Guide",
+  "short_name": "Aussie TV",
+  "description": "Australia's Freeview TV Guide tonight. Check what's on Australian television across Channel 7, Nine, 10, ABC and SBS.",
   "start_url": "/",
   "id": "/",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait-primary",
-  "background_color": "#0f172a",
-  "theme_color": "#2563eb",
-  "lang": "de-DE",
+  "background_color": "#020617",
+  "theme_color": "#020617",
+  "lang": "en-AU",
   "dir": "ltr",
   "categories": [
     "entertainment",
@@ -47,38 +47,38 @@
   ],
   "shortcuts": [
     {
-      "name": "Heute Abend 20:15",
-      "short_name": "Heute 20:15",
-      "description": "Das aktuelle Hauptabendprogramm ab 20:15 Uhr",
+      "name": "Tonight (7:30 PM)",
+      "short_name": "Tonight",
+      "description": "Australian prime time TV schedule tonight",
       "url": "/",
       "icons": [{ "src": "/favicon.svg", "sizes": "any" }]
     },
     {
-      "name": "Filme heute Abend",
-      "short_name": "Filme",
-      "description": "Alle Spielfilme heute im Fernsehen",
-      "url": "/film-heute-abend/",
+      "name": "On Now",
+      "short_name": "On Now",
+      "description": "What is playing on Australian TV right now",
+      "url": "/on-now/",
       "icons": [{ "src": "/favicon.svg", "sizes": "any" }]
     },
     {
-      "name": "Serien heute Abend",
-      "short_name": "Serien",
-      "description": "Serien und Serien-Highlights heute",
-      "url": "/serien-heute-abend/",
+      "name": "Movies Tonight",
+      "short_name": "Movies",
+      "description": "All movies on Australian TV tonight",
+      "url": "/movies-tonight/",
       "icons": [{ "src": "/favicon.svg", "sizes": "any" }]
     },
     {
-      "name": "Sport heute Abend",
+      "name": "Sport Tonight",
       "short_name": "Sport",
-      "description": "Live-Sport und Sportübertragungen heute",
-      "url": "/sport-heute-abend/",
+      "description": "Live sport on Australian TV tonight",
+      "url": "/sport-tonight/",
       "icons": [{ "src": "/favicon.svg", "sizes": "any" }]
     },
     {
-      "name": "TV-Programm morgen",
-      "short_name": "Morgen",
-      "description": "Fernsehprogramm und Vorschau für morgen",
-      "url": "/morgen/",
+      "name": "Tomorrow's TV Guide",
+      "short_name": "Tomorrow",
+      "description": "TV schedule and guide for tomorrow",
+      "url": "/tomorrow/",
       "icons": [{ "src": "/favicon.svg", "sizes": "any" }]
     }
   ]
