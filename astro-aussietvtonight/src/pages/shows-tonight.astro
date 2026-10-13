@@ -11,7 +11,7 @@ import { fetchChannels, fetchProgramsForDate } from '../lib/epg';
 import { getTodayInAustralia, formatDateAU, formatTimeAU, getAustralianHour } from '../utils/timeSlots';
 import { normCid } from '../utils/channelSlug';
 import { isTvShow } from '../utils/programClassifier';
-import { getFallbackImageForProgram } from '../utils/programImages';
+import { getFallbackImageForProgram, getCleanProgramImage } from '../utils/programImages';
 import type { Channel, Program } from '../types';
 
 const today = getTodayInAustralia();
@@ -164,6 +164,7 @@ const jsonLd = {
         {showsTonight.map(({ program, channel, slug }) => {
           const timeFormatted = formatTimeAU(program.start_time);
           const endTimeFormatted = formatTimeAU(program.end_time);
+          const displayImage = getCleanProgramImage(program.image_url, program.title, program.category);
 
           return (
             <div 
@@ -175,59 +176,56 @@ const jsonLd = {
               data-start={program.start_time}
               data-end={program.end_time}
               data-rating={program.rating}
-              data-image={program.image_url}
+              data-image={displayImage}
               data-channel-slug={slug}
               data-channel-name={channel.name}
               data-channel-logo={channel.logo}
               onclick="openProgramModal(this)"
             >
-              {program.image_url && (
-                <div class="w-full h-44 bg-slate-850 overflow-hidden relative">
-                  <img 
-                    src={program.image_url} 
-                    alt={program.title} 
-                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    loading="lazy"
-                    onerror={`this.onerror=null; this.src='${getFallbackImageForProgram(program.title, program.category)}';`}
-                  />
-                  <div class="absolute top-3 left-3 bg-slate-950/80 backdrop-blur px-2.5 py-1 rounded-lg border border-slate-700/60 flex items-center gap-2">
-                    <img src={channel.logo} alt={channel.name} class="h-4 max-w-[60px] object-contain" />
-                    <span class="text-xs font-bold text-white">{channel.name}</span>
+              <!-- Clean Header Bar: Channel & Air Time -->
+              <div class="px-4 py-3 border-b border-slate-800/80 flex items-center justify-between gap-3 bg-slate-900/90">
+                <div class="flex items-center gap-2.5 min-w-0">
+                  <div class="w-8 h-8 rounded-lg bg-slate-950 p-1 flex items-center justify-center border border-slate-800 shrink-0">
+                    <img src={channel.logo} alt={channel.name} class="max-h-full max-w-full object-contain" />
                   </div>
-                  {program.rating && (
-                    <div class="absolute top-3 right-3 bg-slate-900/90 text-cyan-400 font-bold text-xs px-2 py-0.5 rounded border border-slate-700">
-                      {program.rating}
-                    </div>
-                  )}
+                  <span class="text-xs font-bold text-slate-200 truncate">{channel.name}</span>
                 </div>
-              )}
 
-              <div class="p-5 flex-1 flex flex-col justify-between">
-                <div>
-                  <div class="flex items-center justify-between gap-2 mb-2">
-                    <div class="flex items-center gap-2">
-                      <span 
-                        class="text-xs font-bold font-mono px-2 py-0.5 rounded bg-cyan-400 text-slate-950"
-                        data-utc-start={program.start_time}
-                      >
-                        {timeFormatted}
-                      </span>
-                      <span class="text-xs text-slate-500 font-medium">
-                        until {endTimeFormatted}
-                      </span>
-                    </div>
-
-                    <span class="text-xs text-slate-400 font-medium">
-                      {channel.name}
+                <div class="flex items-center gap-2 shrink-0">
+                  {program.rating && (
+                    <span class="text-[10px] font-bold text-cyan-400 bg-slate-800 px-1.5 py-0.5 rounded border border-slate-700">
+                      {program.rating}
                     </span>
-                  </div>
+                  )}
+                  <span 
+                    class="text-xs font-bold font-mono px-2 py-0.5 rounded bg-cyan-400 text-slate-950"
+                    data-utc-start={program.start_time}
+                  >
+                    {timeFormatted}
+                  </span>
+                </div>
+              </div>
 
-                  <h2 class="text-lg font-bold text-white group-hover:text-cyan-300 transition-colors line-clamp-1">
+              <!-- Program Poster Image (Clean, unblocked) -->
+              <div class="w-full h-48 bg-slate-850 overflow-hidden relative">
+                <img 
+                  src={displayImage} 
+                  alt={program.title} 
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  loading="lazy"
+                  onerror={`this.onerror=null; this.src='${getFallbackImageForProgram(program.title, program.category)}';`}
+                />
+              </div>
+
+              <!-- Card Body: Title, Subtitle, Description, Footer -->
+              <div class="p-4 sm:p-5 flex-1 flex flex-col justify-between">
+                <div>
+                  <h2 class="text-base sm:text-lg font-bold text-white group-hover:text-cyan-300 transition-colors line-clamp-1">
                     {program.title}
                   </h2>
 
                   {program.sub_title && (
-                    <p class="text-xs text-slate-300 mt-1 font-medium">
+                    <p class="text-xs text-slate-300 mt-1 font-medium line-clamp-1">
                       {program.sub_title}
                     </p>
                   )}
@@ -239,6 +237,7 @@ const jsonLd = {
 
                 <div class="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between text-xs font-semibold text-cyan-400">
                   <span>View Show Details →</span>
+                  <span class="text-slate-500 font-normal text-[11px]">until {endTimeFormatted}</span>
                 </div>
               </div>
             </div>
