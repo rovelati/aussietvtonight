@@ -213,6 +213,7 @@ const jsonLd = {
                   alt={program.title} 
                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   loading="lazy"
+                  referrerpolicy="no-referrer"
                   onerror={`this.onerror=null; this.src='${getFallbackImageForProgram(program.title, program.category)}';`}
                 />
               </div>

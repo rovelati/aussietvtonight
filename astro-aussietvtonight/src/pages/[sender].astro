@@ -179,6 +179,7 @@ const jsonLd = {
                     alt={prog.title} 
                     class="w-full h-full object-cover" 
                     loading="lazy" 
+                    referrerpolicy="no-referrer"
                     onerror={`this.onerror=null; this.src='${getFallbackImageForProgram(prog.title, prog.category)}';`}
                   />
                 </div>
