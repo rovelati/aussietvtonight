@@ -4,7 +4,7 @@
  * Displays a TV network/channel with its evening or current listings.
  */
 import { formatTimeAU } from '../utils/timeSlots';
-import { getFallbackImageForProgram } from '../utils/programImages';
+import { getFallbackImageForProgram, getCleanProgramImage } from '../utils/programImages';
 import BookmarkButton from './BookmarkButton.astro';
 import type { Channel, Program } from '../types';
 
@@ -113,13 +113,15 @@ const { channel, programs, slug } = Astro.props;
           </div>
 
           {prog.image_url && (
-            <div class="w-16 h-12 rounded-lg overflow-hidden bg-slate-800 flex-shrink-0">
+            <div class="w-16 h-12 rounded-lg overflow-hidden bg-slate-800 flex-shrink-0 relative flex items-center justify-center">
+              <span class="absolute text-xs opacity-20 select-none">📺</span>
               <img 
-                src={prog.image_url} 
+                src={getCleanProgramImage(prog.image_url, prog.title, prog.category)} 
                 alt={prog.title} 
-                class="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform relative z-10"
                 loading="lazy"
-                onerror={`this.onerror=null; this.src='${getFallbackImageForProgram(prog.title, prog.category)}';`}
+                referrerpolicy="no-referrer"
+                onerror={`const fb='${getFallbackImageForProgram(prog.title, prog.category)}'; if (this.src !== fb) { this.src = fb; } else { this.style.display = 'none'; }`}
               />
             </div>
           )}

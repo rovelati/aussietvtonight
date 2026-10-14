@@ -4,18 +4,23 @@
  * Provides high-availability fallback posters for Australian TV programs.
  * Resolves images when FetchTV CDN links return 403 Access Denied.
  */
+import deadImages from '../data/dead-images.json';
 
+// Local, zero-latency category fallbacks (immune to CDN 404s/403s)
 export const CATEGORY_FALLBACK_IMAGES: Record<string, string> = {
-  'News': 'https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&w=800&q=80',
-  'Sports': 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=800&q=80',
-  'Drama': 'https://images.unsplash.com/photo-1518895949257-7621c3c786d7?auto=format&fit=crop&w=800&q=80',
-  'Comedy': 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=800&q=80',
-  'Kids & Family': 'https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?auto=format&fit=crop&w=800&q=80',
-  'Action & Adventure': 'https://images.unsplash.com/photo-1509281373149-e957c6296406?auto=format&fit=crop&w=800&q=80',
-  'Special Interest': 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80',
-  'Music': 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=800&q=80',
-  'Movie': 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=800&q=80',
-  'Default': 'https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?auto=format&fit=crop&w=800&q=80',
+  'News': '/images/fallbacks/news.jpg',
+  'Sports': '/images/fallbacks/sports.jpg',
+  'Sport': '/images/fallbacks/sports.jpg',
+  'Drama': '/images/fallbacks/shows.jpg',
+  'Comedy': '/images/fallbacks/comedy.jpg',
+  'Kids & Family': '/images/fallbacks/kids.jpg',
+  'Kids': '/images/fallbacks/kids.jpg',
+  'Action & Adventure': '/images/fallbacks/movies.jpg',
+  'Special Interest': '/images/fallbacks/default.jpg',
+  'Music': '/images/fallbacks/shows.jpg',
+  'Movie': '/images/fallbacks/movies.jpg',
+  'Movies': '/images/fallbacks/movies.jpg',
+  'Default': '/images/fallbacks/default.jpg',
 };
 
 export const POPULAR_AU_PROGRAM_POSTERS: Record<string, string> = {
@@ -70,6 +75,11 @@ export const KNOWN_CHANNEL_PLACEHOLDERS = new Set([
   'https://www.fetchtv.com.au/v2/epg/program/daec9646f1ae3440105b/image', // ABC TV Plus generic
 ]);
 
+// Set of 290+ broken FetchTV image URLs that return 403 Access Denied from CloudFront
+export const KNOWN_DEAD_IMAGES = new Set<string>(
+  (deadImages as Array<{ url: string }>).map((item) => item.url)
+);
+
 export function getFallbackImageForProgram(title: string = '', category: string = ''): string {
   const t = title.toLowerCase().trim();
   for (const [key, url] of Object.entries(POPULAR_AU_PROGRAM_POSTERS)) {
@@ -80,11 +90,18 @@ export function getFallbackImageForProgram(title: string = '', category: string 
     return CATEGORY_FALLBACK_IMAGES[category];
   }
 
+  if (category) {
+    const catLower = category.toLowerCase().trim();
+    for (const [catKey, url] of Object.entries(CATEGORY_FALLBACK_IMAGES)) {
+      if (catLower.includes(catKey.toLowerCase())) return url;
+    }
+  }
+
   return CATEGORY_FALLBACK_IMAGES['Default'];
 }
 
 export function getCleanProgramImage(rawImageUrl: string | undefined, title: string = '', category: string = ''): string {
-  if (rawImageUrl && !KNOWN_CHANNEL_PLACEHOLDERS.has(rawImageUrl)) {
+  if (rawImageUrl && !KNOWN_CHANNEL_PLACEHOLDERS.has(rawImageUrl) && !KNOWN_DEAD_IMAGES.has(rawImageUrl)) {
     return rawImageUrl;
   }
   return getFallbackImageForProgram(title, category);

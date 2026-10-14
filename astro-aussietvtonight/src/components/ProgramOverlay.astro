@@ -179,24 +179,29 @@ import { AU_LIVE_STREAMS, AU_CHANNEL_WEBSITES } from '../utils/channelStreams';
       ratingEl.classList.add('hidden');
     }
 
-    const imgEl = document.getElementById('modal-image');
     const catFallbacks = {
-      'News': 'https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&w=800&q=80',
-      'Sports': 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=800&q=80',
-      'Drama': 'https://images.unsplash.com/photo-1518895949257-7621c3c786d7?auto=format&fit=crop&w=800&q=80',
-      'Comedy': 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=800&q=80',
-      'Kids & Family': 'https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?auto=format&fit=crop&w=800&q=80',
-      'Action & Adventure': 'https://images.unsplash.com/photo-1509281373149-e957c6296406?auto=format&fit=crop&w=800&q=80',
-      'Special Interest': 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80',
-      'Default': 'https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?auto=format&fit=crop&w=800&q=80'
+      'News': '/images/fallbacks/news.jpg',
+      'Sports': '/images/fallbacks/sports.jpg',
+      'Sport': '/images/fallbacks/sports.jpg',
+      'Drama': '/images/fallbacks/shows.jpg',
+      'Comedy': '/images/fallbacks/comedy.jpg',
+      'Kids & Family': '/images/fallbacks/kids.jpg',
+      'Action & Adventure': '/images/fallbacks/movies.jpg',
+      'Special Interest': '/images/fallbacks/default.jpg',
+      'Movie': '/images/fallbacks/movies.jpg',
+      'Movies': '/images/fallbacks/movies.jpg',
+      'Default': '/images/fallbacks/default.jpg'
     };
     const fallbackPhoto = catFallbacks[cat] || catFallbacks['Default'];
 
     imgEl.src = img || fallbackPhoto;
     imgEl.classList.remove('hidden');
     imgEl.onerror = function() {
-      this.onerror = null;
-      this.src = fallbackPhoto;
+      if (this.src !== fallbackPhoto) {
+        this.src = fallbackPhoto;
+      } else {
+        this.classList.add('hidden');
+      }
     };
 
     document.getElementById('modal-channel-name').textContent = chName;

@@ -206,15 +206,19 @@ const jsonLd = {
                 </div>
               </div>
 
-              <!-- Program Poster Image (Clean, unblocked) -->
-              <div class="w-full h-48 bg-slate-850 overflow-hidden relative">
+              <!-- Program Poster Image (Clean, with background placeholder shield) -->
+              <div class="w-full h-48 bg-gradient-to-br from-slate-900 via-slate-850 to-slate-950 overflow-hidden relative flex items-center justify-center">
+                <div class="absolute inset-0 flex flex-col items-center justify-center text-slate-700 select-none">
+                  <span class="text-4xl opacity-30">📺</span>
+                  <span class="text-[11px] font-bold uppercase tracking-wider text-slate-500 mt-1">TV Series</span>
+                </div>
                 <img 
                   src={displayImage} 
                   alt={program.title} 
-                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 relative z-10"
                   loading="lazy"
                   referrerpolicy="no-referrer"
-                  onerror={`this.onerror=null; this.src='${getFallbackImageForProgram(program.title, program.category)}';`}
+                  onerror="if (!this.src.endsWith('/images/fallbacks/shows.jpg')) { this.src = '/images/fallbacks/shows.jpg'; } else { this.style.display = 'none'; }"
                 />
               </div>
 

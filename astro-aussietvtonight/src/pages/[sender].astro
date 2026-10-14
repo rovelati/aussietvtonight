@@ -12,7 +12,7 @@ import { fetchChannels, fetchProgramsForDate } from '../lib/epg';
 import { getTodayInAustralia, formatDateAU, formatTimeAU, isCurrentBroadcastDay } from '../utils/timeSlots';
 import { normCid } from '../utils/channelSlug';
 import { filterRealPrograms } from '../utils/channelFilters';
-import { getFallbackImageForProgram } from '../utils/programImages';
+import { getFallbackImageForProgram, getCleanProgramImage } from '../utils/programImages';
 import type { Channel, Program } from '../types';
 
 export async function getStaticPaths() {
@@ -173,14 +173,15 @@ const jsonLd = {
               </div>
 
               {prog.image_url && (
-                <div class="w-20 h-14 rounded-lg overflow-hidden bg-slate-800 flex-shrink-0 self-end sm:self-center">
+                <div class="w-20 h-14 rounded-lg overflow-hidden bg-slate-800 flex-shrink-0 self-end sm:self-center relative flex items-center justify-center">
+                  <span class="absolute text-xs opacity-20 select-none">📺</span>
                   <img 
-                    src={prog.image_url} 
+                    src={getCleanProgramImage(prog.image_url, prog.title, prog.category)} 
                     alt={prog.title} 
-                    class="w-full h-full object-cover" 
+                    class="w-full h-full object-cover relative z-10" 
                     loading="lazy" 
                     referrerpolicy="no-referrer"
-                    onerror={`this.onerror=null; this.src='${getFallbackImageForProgram(prog.title, prog.category)}';`}
+                    onerror={`const fb='${getFallbackImageForProgram(prog.title, prog.category)}'; if (this.src !== fb) { this.src = fb; } else { this.style.display = 'none'; }`}
                   />
                 </div>
               )}
