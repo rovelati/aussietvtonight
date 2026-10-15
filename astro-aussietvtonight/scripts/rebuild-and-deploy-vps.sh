@@ -65,3 +65,11 @@ npx --yes wrangler@4 pages deploy dist \
   --commit-dirty=true 2>&1 | tee -a "$LOG"
 
 log "Deploy complete"
+
+log "Pinging IndexNow (Bing / Microsoft)..."
+node scripts/ping-indexnow.mjs 2>&1 | tee -a "$LOG" || true
+
+log "Pinging Google Indexing API (URL_UPDATED)..."
+python3 scripts/push-google-indexing.py 2>&1 | tee -a "$LOG" || true
+
+log "All search engine pings finished!"
