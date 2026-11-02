@@ -1,0 +1,163 @@
+---
+/**
+ * Contact Us — Aussie TV Tonight
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+const pageTitle = "Contact Us | Aussie TV Tonight";
+const pageDesc = "Contact the editorial and support team at Aussie TV Tonight. Send schedule corrections, broadcaster inquiries, technical feedback, or partnership requests.";
+const canonicalUrl = "https://www.aussietvtonight.com/contact/";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ContactPage",
+  "name": "Contact Aussie TV Tonight",
+  "url": canonicalUrl,
+  "description": pageDesc,
+  "mainEntity": {
+    "@type": "Organization",
+    "name": "Aussie TV Tonight",
+    "url": "https://www.aussietvtonight.com",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "email": "tv@aussietvtonight.com",
+      "contactType": "customer service & editorial",
+      "availableLanguage": "English"
+    }
+  }
+};
+---
+
+<BaseLayout title={pageTitle} description={pageDesc} canonicalUrl={canonicalUrl} jsonLd={jsonLd}>
+  <Header />
+
+  <main class="flex-1 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
+    
+    <!-- Breadcrumbs -->
+    <nav class="flex items-center gap-2 text-xs text-slate-400 mb-6 font-medium">
+      <a href="/" class="hover:text-amber-400 transition">Home</a>
+      <span>/</span>
+      <span class="text-amber-400">Contact Us</span>
+    </nav>
+
+    <!-- Header -->
+    <div class="border-b border-slate-800 pb-8 mb-10">
+      <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-400/10 border border-amber-400/20 text-amber-400 text-xs font-semibold uppercase tracking-wider mb-3">
+        Get in Touch
+      </span>
+      <h1 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
+        Contact <span class="text-amber-400">Aussie TV Tonight</span>
+      </h1>
+      <p class="text-lg text-slate-300 mt-4 leading-relaxed font-medium">
+        We value your feedback, corrections, and questions. Reach our editorial desk directly via email.
+      </p>
+    </div>
+
+    <!-- Contact Cards Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+      
+      <!-- Card 1: Editorial & Schedule Corrections -->
+      <div class="p-6 rounded-2xl bg-slate-900 border border-slate-800 flex flex-col justify-between">
+        <div>
+          <div class="w-10 h-10 rounded-xl bg-amber-400/10 border border-amber-400/20 text-amber-400 flex items-center justify-center text-xl mb-4">
+            📝
+          </div>
+          <h2 class="text-lg font-bold text-white mb-2">Editorial & Schedule Corrections</h2>
+          <p class="text-xs sm:text-sm text-slate-400 leading-relaxed mb-4">
+            Did a network announce a late breaking schedule alteration, live sports overrun, or special bulletin? Let us know so our team can update the guide listings.
+          </p>
+        </div>
+        <a 
+          href="mailto:tv@aussietvtonight.com?subject=Schedule%20Correction" 
+          class="inline-flex items-center gap-2 text-xs font-bold text-amber-400 hover:text-amber-300 transition-colors"
+        >
+          <span>Email Corrections Desk</span>
+          <span>→</span>
+        </a>
+      </div>
+
+      <!-- Card 2: General Feedback & Technical Inquiries -->
+      <div class="p-6 rounded-2xl bg-slate-900 border border-slate-800 flex flex-col justify-between">
+        <div>
+          <div class="w-10 h-10 rounded-xl bg-emerald-400/10 border border-emerald-400/20 text-emerald-400 flex items-center justify-center text-xl mb-4">
+            ⚙️
+          </div>
+          <h2 class="text-lg font-bold text-white mb-2">Technical & Platform Feedback</h2>
+          <p class="text-xs sm:text-sm text-slate-400 leading-relaxed mb-4">
+            Encountered a bug, display glitch, or want to suggest a new feature (such as additional regional timezones or favorite channel lists)? We'd love to hear from you.
+          </p>
+        </div>
+        <a 
+          href="mailto:tv@aussietvtonight.com?subject=Technical%20Feedback" 
+          class="inline-flex items-center gap-2 text-xs font-bold text-emerald-400 hover:text-emerald-300 transition-colors"
+        >
+          <span>Email Technical Team</span>
+          <span>→</span>
+        </a>
+      </div>
+
+      <!-- Card 3: Privacy, Data & Cookies -->
+      <div class="p-6 rounded-2xl bg-slate-900 border border-slate-800 flex flex-col justify-between">
+        <div>
+          <div class="w-10 h-10 rounded-xl bg-sky-400/10 border border-sky-400/20 text-sky-400 flex items-center justify-center text-xl mb-4">
+            🛡️
+          </div>
+          <h2 class="text-lg font-bold text-white mb-2">Privacy & Legal Inquiries</h2>
+          <p class="text-xs sm:text-sm text-slate-400 leading-relaxed mb-4">
+            For inquiries regarding our <a href="/privacy/" class="text-sky-400 underline">Privacy Policy</a>, cookie consent preferences, or compliance with the Australian Privacy Act 1988.
+          </p>
+        </div>
+        <a 
+          href="mailto:tv@aussietvtonight.com?subject=Privacy%20Inquiry" 
+          class="inline-flex items-center gap-2 text-xs font-bold text-sky-400 hover:text-sky-300 transition-colors"
+        >
+          <span>Email Privacy Officer</span>
+          <span>→</span>
+        </a>
+      </div>
+
+      <!-- Card 4: Advertising & Partnerships -->
+      <div class="p-6 rounded-2xl bg-slate-900 border border-slate-800 flex flex-col justify-between">
+        <div>
+          <div class="w-10 h-10 rounded-xl bg-purple-400/10 border border-purple-400/20 text-purple-400 flex items-center justify-center text-xl mb-4">
+            🤝
+          </div>
+          <h2 class="text-lg font-bold text-white mb-2">Broadcasters & Partnerships</h2>
+          <p class="text-xs sm:text-sm text-slate-400 leading-relaxed mb-4">
+            Represent a broadcast network, streaming platform, or content distributor interested in verified EPG feed synchronization or official channel badging?
+          </p>
+        </div>
+        <a 
+          href="mailto:tv@aussietvtonight.com?subject=Partnership%20Inquiry" 
+          class="inline-flex items-center gap-2 text-xs font-bold text-purple-400 hover:text-purple-300 transition-colors"
+        >
+          <span>Email Commercial Team</span>
+          <span>→</span>
+        </a>
+      </div>
+
+    </div>
+
+    <!-- Official Channels Note -->
+    <div class="p-6 sm:p-8 rounded-2xl bg-slate-900/50 border border-slate-800 text-xs text-slate-400 leading-relaxed space-y-3">
+      <h3 class="text-sm font-bold text-white flex items-center gap-2">
+        <span>ℹ️</span> Broadcaster Notice Regarding Program Transmission
+      </h3>
+      <p>
+        Aussie TV Tonight is an independent television guide directory and does not broadcast or transmit live television signals. If you are experiencing reception, aerial, or transmission issues, please consult the official transmission status pages or viewer feedback desks of the respective network:
+      </p>
+      <div class="flex flex-wrap gap-4 text-slate-300 pt-1">
+        <span class="hover:text-amber-400 font-semibold">• Seven West Media</span>
+        <span class="hover:text-amber-400 font-semibold">• Nine Entertainment Co.</span>
+        <span class="hover:text-amber-400 font-semibold">• Paramount Network 10</span>
+        <span class="hover:text-amber-400 font-semibold">• Australian Broadcasting Corporation (ABC)</span>
+        <span class="hover:text-amber-400 font-semibold">• Special Broadcasting Service (SBS)</span>
+      </div>
+    </div>
+
+  </main>
+
+  <Footer />
+</BaseLayout>

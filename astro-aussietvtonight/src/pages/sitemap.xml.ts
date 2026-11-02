@@ -2,7 +2,7 @@ import type { APIRoute } from 'astro';
 import { MAJOR_AU_ORDER } from '../utils/channelFilters';
 
 export const GET: APIRoute = async () => {
-  const baseUrl = 'https://aussietvtonight.com';
+  const baseUrl = 'https://www.aussietvtonight.com';
   const now = new Date().toISOString();
 
   const items = [
@@ -12,6 +12,10 @@ export const GET: APIRoute = async () => {
     { loc: `${baseUrl}/sport-tonight/`, priority: '0.9', changefreq: 'daily' },
     { loc: `${baseUrl}/shows-tonight/`, priority: '0.9', changefreq: 'daily' },
     { loc: `${baseUrl}/on-now/`, priority: '0.8', changefreq: 'hourly' },
+    { loc: `${baseUrl}/about/`, priority: '0.5', changefreq: 'monthly' },
+    { loc: `${baseUrl}/contact/`, priority: '0.5', changefreq: 'monthly' },
+    { loc: `${baseUrl}/privacy/`, priority: '0.3', changefreq: 'monthly' },
+    { loc: `${baseUrl}/terms/`, priority: '0.3', changefreq: 'monthly' },
     ...MAJOR_AU_ORDER.map(slug => ({
       loc: `${baseUrl}/${slug}/`,
       priority: '0.85',

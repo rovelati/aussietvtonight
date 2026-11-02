@@ -5,6 +5,10 @@
 # Direct sitemap-index to direct sitemap
 /sitemap-index.xml     /sitemap.xml         301
 
+# Info shortcuts
+/about                 /about/              301
+/contact               /contact/            301
+
 # Hub shortcuts & aliases
 /movies                /movies-tonight/     301
 /movies/               /movies-tonight/     301

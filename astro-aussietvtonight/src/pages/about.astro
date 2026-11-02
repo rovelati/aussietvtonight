@@ -1,0 +1,164 @@
+---
+/**
+ * About Aussie TV Tonight — Independent Australian Freeview TV Guide
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+const pageTitle = "About Us | Aussie TV Tonight — Freeview Australian TV Guide";
+const pageDesc = "Learn about Aussie TV Tonight, Australia's independent Freeview television guide. Real-time schedules across Seven, Nine, 10, ABC, and SBS for all Australian timezones.";
+const canonicalUrl = "https://www.aussietvtonight.com/about/";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  "name": "About Aussie TV Tonight",
+  "url": canonicalUrl,
+  "description": pageDesc,
+  "mainEntity": {
+    "@type": "Organization",
+    "name": "Aussie TV Tonight",
+    "url": "https://www.aussietvtonight.com",
+    "logo": "https://www.aussietvtonight.com/icon-512.png",
+    "description": "Independent Australian television guide and digital Freeview programming directory.",
+    "foundingDate": "2024",
+    "address": {
+      "@type": "PostalAddress",
+      "addressCountry": "AU"
+    },
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "contactType": "editorial & support",
+      "email": "tv@aussietvtonight.com"
+    }
+  }
+};
+---
+
+<BaseLayout title={pageTitle} description={pageDesc} canonicalUrl={canonicalUrl} jsonLd={jsonLd}>
+  <Header />
+
+  <main class="flex-1 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
+    
+    <!-- Breadcrumbs -->
+    <nav class="flex items-center gap-2 text-xs text-slate-400 mb-6 font-medium">
+      <a href="/" class="hover:text-amber-400 transition">Home</a>
+      <span>/</span>
+      <span class="text-amber-400">About Us</span>
+    </nav>
+
+    <!-- Header -->
+    <div class="border-b border-slate-800 pb-8 mb-10">
+      <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-400/10 border border-amber-400/20 text-amber-400 text-xs font-semibold uppercase tracking-wider mb-3">
+        About Aussie TV Tonight
+      </span>
+      <h1 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
+        Your Independent Australian <span class="text-amber-400">Freeview Guide</span>
+      </h1>
+      <p class="text-lg text-slate-300 mt-4 leading-relaxed font-medium">
+        Fast, clean, and reliable television schedules for all free-to-air channels across Sydney, Melbourne, Brisbane, Adelaide, Perth, and regional Australia.
+      </p>
+    </div>
+
+    <!-- Editorial Content -->
+    <article class="prose prose-invert prose-slate max-w-none space-y-10 text-slate-300 leading-relaxed text-sm sm:text-base">
+      
+      <!-- Section 1: Who We Are -->
+      <section class="bg-slate-900/60 p-6 sm:p-8 rounded-2xl border border-slate-800">
+        <h2 class="text-xl sm:text-2xl font-bold text-white mb-4 flex items-center gap-2">
+          <span>📺</span> Who We Are & Our Mission
+        </h2>
+        <p class="text-slate-300 mb-4">
+          <strong>Aussie TV Tonight</strong> (<a href="https://www.aussietvtonight.com/" class="text-amber-400 hover:underline">aussietvtonight.com</a>) is an independent, ad-supported digital TV directory designed specifically for Australian viewers. We believe finding out what is on television tonight should be instantaneous, uncluttered, and tailored to your local state and timezone.
+        </p>
+        <p class="text-slate-300">
+          Unlike clunky legacy portals loaded with auto-playing video ads and slow scripts, Aussie TV Tonight is built with high-performance edge architecture. Whether you are checking prime time highlights at 7:30 PM on your smartphone or browsing movies tonight on your tablet, schedules load in milliseconds.
+        </p>
+      </section>
+
+      <!-- Section 2: Comprehensive Freeview Coverage -->
+      <section class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
+          <span>📡</span> Complete Free-to-Air Network Coverage
+        </h2>
+        <p class="text-slate-300">
+          Our guide tracks every major commercial network, national public broadcaster, and digital multi-channel available on Australian Freeview:
+        </p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+          <div class="p-4 rounded-xl bg-slate-900 border border-slate-800">
+            <h3 class="font-bold text-amber-400 text-base mb-1">Seven Network (Channel 7)</h3>
+            <p class="text-xs text-slate-400">Primary Channel 7, 7two (classic drama & lifestyle), 7mate (action, sport & reality), and 7flix (movies & entertainment).</p>
+          </div>
+          <div class="p-4 rounded-xl bg-slate-900 border border-slate-800">
+            <h3 class="font-bold text-amber-400 text-base mb-1">Nine Network (Channel 9)</h3>
+            <p class="text-xs text-slate-400">Channel 9, 9Gem (classic British series & sport), 9Go! (youth & comedy), 9Life (home & lifestyle), and 9Rush (adventure reality).</p>
+          </div>
+          <div class="p-4 rounded-xl bg-slate-900 border border-slate-800">
+            <h3 class="font-bold text-amber-400 text-base mb-1">Network 10 (Paramount)</h3>
+            <p class="text-xs text-slate-400">Channel 10, 10 Bold (drama, action & sport), 10 Peach / Comedy (sitcoms & family), and Nickelodeon Australia (children's animation).</p>
+          </div>
+          <div class="p-4 rounded-xl bg-slate-900 border border-slate-800">
+            <h3 class="font-bold text-amber-400 text-base mb-1">ABC & SBS (National Public Broadcasters)</h3>
+            <p class="text-xs text-slate-400">ABC TV, ABC Kids, ABC Family, ABC Entertains, ABC NEWS 24, alongside SBS, SBS VICELAND, SBS World Movies, SBS Food, and NITV.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 3: Automatic Timezone Support -->
+      <section class="bg-slate-900/60 p-6 sm:p-8 rounded-2xl border border-slate-800">
+        <h2 class="text-xl sm:text-2xl font-bold text-white mb-4 flex items-center gap-2">
+          <span>🕒</span> Multi-Timezone Synchronization Across Australia
+        </h2>
+        <p class="text-slate-300 mb-4">
+          Australia spans multiple non-contiguous time zones, compounded during summer months by daylight saving time (AEDT and ACDT). A prime time show airing at 7:30 PM in Sydney or Melbourne may air at a different local time in Brisbane (AEST), Adelaide (ACDT), Darwin (ACST), or Perth (AWST).
+        </p>
+        <p class="text-slate-300">
+          Aussie TV Tonight features a built-in, cookie-free <strong>City & Timezone Switcher</strong> in the top header. You can switch your viewing city at any time, and every single program start and end time automatically adjusts to your local wall-clock time without refreshing the page.
+        </p>
+      </section>
+
+      <!-- Section 4: BVOD Links & Legal Disclaimer -->
+      <section class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
+          <span>⚖️</span> Independence & Broadcaster BVOD Streaming
+        </h2>
+        <p class="text-slate-300">
+          Aussie TV Tonight is an independent informational service. We do not host, broadcast, or retransmit video content. Every program card includes convenient direct shortcuts to the official Australian Broadcaster Video on Demand (BVOD) catch-up services:
+        </p>
+        <ul class="list-disc pl-5 text-slate-300 space-y-1.5 text-xs sm:text-sm">
+          <li><strong>7plus</strong> (Seven West Media)</li>
+          <li><strong>9Now</strong> (Nine Entertainment Co.)</li>
+          <li><strong>10 Play</strong> (Paramount Global)</li>
+          <li><strong>ABC iview</strong> (Australian Broadcasting Corporation)</li>
+          <li><strong>SBS On Demand</strong> (Special Broadcasting Service)</li>
+        </ul>
+        <p class="text-xs text-slate-500 pt-2">
+          All network trademarks, logos, channel numbers, and program titles remain the intellectual property of their respective broadcasters and rights holders. Use of network names is strictly for editorial identification and program guide purposes under fair dealing provisions.
+        </p>
+      </section>
+
+      <!-- Section 5: Editorial Standards & Contact -->
+      <section class="bg-gradient-to-br from-amber-500/10 via-slate-900 to-slate-950 p-6 sm:p-8 rounded-2xl border border-amber-500/20">
+        <h2 class="text-xl sm:text-2xl font-bold text-white mb-3">
+          Get in Touch with our Editorial Team
+        </h2>
+        <p class="text-slate-300 mb-4">
+          Have feedback, spotted a late schedule change, or represent a broadcaster? We review and update listings daily to provide the most accurate television programming for Australia.
+        </p>
+        <div class="flex items-center gap-4 flex-wrap">
+          <a href="/contact/" class="px-5 py-2.5 rounded-xl bg-amber-400 text-slate-950 font-bold text-sm hover:bg-amber-300 transition-colors shadow-md shadow-amber-400/20">
+            Contact Editorial Team →
+          </a>
+          <a href="mailto:tv@aussietvtonight.com" class="text-sm font-semibold text-slate-300 hover:text-white transition-colors flex items-center gap-1.5">
+            <span>✉️</span> tv@aussietvtonight.com
+          </a>
+        </div>
+      </section>
+
+    </article>
+
+  </main>
+
+  <Footer />
+</BaseLayout>

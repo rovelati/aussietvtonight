@@ -2,7 +2,7 @@ import type { APIRoute } from 'astro';
 import { MAJOR_AU_ORDER } from '../utils/channelFilters';
 
 export const GET: APIRoute = async () => {
-  const baseUrl = 'https://aussietvtonight.com';
+  const baseUrl = 'https://www.aussietvtonight.com';
   const now = new Date().toISOString();
 
   const items = [
