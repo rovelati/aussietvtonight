@@ -60,14 +60,14 @@ try {
   console.error('[sport-tonight.astro] Error fetching sports listings:', err);
 }
 
-const pageTitle = "Live Sport on TV Tonight Australia | Freeview Sport Guide";
-const pageDesc = "Find all live sport on TV tonight in Australia across Channel 7, 7mate, Nine, 9Gem, 10, and ABC. Full schedules for AFL, NRL, Cricket, Football, and Motorsport.";
-const keywords = "sport on tv tonight, live sport on tv tonight australia, what sport is on tv tonight, freeview sport tonight, afl on tv tonight, nrl on tv tonight, cricket on tv tonight australia";
+const pageTitle = "Sport on TV Tonight: Live Matches, Channels & Replays | Aussie TV Tonight";
+const pageDesc = "Find all live sport on TV tonight across Channel 7, 7mate, Nine, 9Gem, 10, and ABC. Full schedules for AFL, NRL, Cricket, Football, and Motorsport.";
+const keywords = "sport on tv tonight, live sport on tv tonight, what sport is on tv tonight, freeview sport tonight, afl on tv tonight, nrl on tv tonight, cricket on tv tonight";
 
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "ItemList",
-  "name": "Live Sport on TV Tonight in Australia",
+  "name": "Live Sport on TV Tonight",
   "inLanguage": "en-AU",
   "spatialCoverage": {
     "@type": "Country",
@@ -113,10 +113,10 @@ const jsonLd = {
           <span>{dateLabel}</span>
         </div>
         <h1 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-          Sport on TV <span class="text-emerald-400">Tonight</span> in Australia
+          Sport on TV <span class="text-emerald-400">Tonight</span>
         </h1>
         <p class="text-base text-slate-400 mt-2 max-w-2xl">
-          Live games, replays, and sports coverage airing tonight on Australian Freeview television ({sportsTonight.length} sporting events listed).
+          Live games, replays, and sports coverage airing tonight on Freeview television ({sportsTonight.length} sporting events listed).
         </p>
       </div>
 
@@ -248,7 +248,7 @@ const jsonLd = {
       <div class="bg-slate-900/60 p-6 sm:p-8 rounded-3xl border border-slate-800">
         <span class="text-xs font-bold uppercase tracking-wider text-emerald-400 block mb-2">Australian Freeview Sports Guide</span>
         <h2 class="text-xl sm:text-2xl font-bold text-white mb-3">
-          Free-to-Air Sports & The Anti-Siphoning Scheme in Australia
+          Free-to-Air Sports & The Anti-Siphoning Scheme
         </h2>
         <div class="prose prose-invert prose-slate max-w-none text-slate-300 text-xs sm:text-sm space-y-3 leading-relaxed">
           <p>

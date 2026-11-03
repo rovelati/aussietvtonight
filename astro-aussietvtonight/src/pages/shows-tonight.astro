@@ -65,14 +65,14 @@ try {
   console.error('[shows-tonight.astro] Error fetching TV shows:', err);
 }
 
-const pageTitle = "TV Shows on TV Tonight Australia | Freeview Series & Drama Guide";
+const pageTitle = "TV Shows on Tonight: Prime Time Series & Drama Guide | Aussie TV Tonight";
 const pageDesc = "Find all TV shows, reality formats, and dramas on TV tonight across Channel 7, Nine, 10, ABC, and SBS. Full schedules for prime time television.";
-const keywords = "tv shows on tv tonight, what shows are on tv tonight australia, reality tv tonight australia, tv series tonight australia, freeview shows tonight";
+const keywords = "tv shows on tv tonight, what shows are on tv tonight, reality tv tonight, tv series tonight, freeview shows tonight";
 
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "ItemList",
-  "name": "TV Shows on TV Tonight in Australia",
+  "name": "TV Shows on TV Tonight",
   "inLanguage": "en-AU",
   "spatialCoverage": {
     "@type": "Country",
@@ -118,10 +118,10 @@ const jsonLd = {
           <span>{dateLabel}</span>
         </div>
         <h1 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-          TV Shows on TV <span class="text-cyan-400">Tonight</span> in Australia
+          TV Shows & Series on <span class="text-cyan-400">Tonight</span>
         </h1>
         <p class="text-base text-slate-400 mt-2 max-w-2xl">
-          Prime time reality, dramas, comedies, and entertainment series airing tonight across Australian Freeview networks ({showsTonight.length} shows scheduled).
+          Prime time reality, dramas, comedies, and entertainment series airing tonight across Freeview networks ({showsTonight.length} shows scheduled).
         </p>
       </div>
 

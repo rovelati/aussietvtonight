@@ -85,14 +85,14 @@ try {
   console.error('[on-now.astro] Error rendering On Now:', err);
 }
 
-const pageTitle = "What's on TV Right Now in Australia | Live Freeview TV Guide";
-const pageDesc = "Live TV guide for Australia. See what is currently airing on Channel 7, Nine, 10, ABC, and SBS right now with real-time schedules and progress.";
-const keywords = "what's on tv right now, on tv now australia, live tv guide australia, what's on tv now, freeview on now australia";
+const pageTitle = "What's on TV Right Now: Live Schedules & Freeview Guide | Aussie TV Tonight";
+const pageDesc = "Live TV guide. See what is currently airing on Channel 7, Nine, 10, ABC, and SBS right now with real-time schedules and progress.";
+const keywords = "what's on tv right now, on tv now, live tv guide, what's on tv now, freeview on now";
 
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "ItemList",
-  "name": "What's on TV Right Now in Australia",
+  "name": "What's on TV Right Now",
   "inLanguage": "en-AU",
   "spatialCoverage": {
     "@type": "Country",
@@ -139,10 +139,10 @@ const jsonLd = {
         <span>{dateLabel}</span>
       </div>
       <h1 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-        What's on TV <span class="text-emerald-400">Right Now</span> in Australia
+        What's on TV <span class="text-emerald-400">Right Now</span>
       </h1>
       <p class="text-base text-slate-400 mt-2 max-w-2xl">
-        Real-time TV schedules across Australian Freeview networks. Check live progress and what's coming up next.
+        Real-time schedules across Freeview networks. Check live progress and what's coming up next.
       </p>
     </div>
 

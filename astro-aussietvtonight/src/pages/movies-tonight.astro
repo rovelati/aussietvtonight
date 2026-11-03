@@ -63,14 +63,14 @@ try {
   console.error('[movies-tonight.astro] Error fetching movies:', err);
 }
 
-const pageTitle = "Movies on TV Tonight Australia | Freeview Cinema & Film Guide";
-const pageDesc = "Find all movies on TV tonight across Australian Freeview channels including SBS World Movies, 7flix, 9Gem, 10, and ABC. Full schedules and ratings.";
-const keywords = "movies on tv tonight, movies tonight australia, freeview movies tonight, film on tv tonight, tv movies tonight australia, sbs world movies guide";
+const pageTitle = "Movies on TV Tonight: Free-to-Air Films & Schedules | Aussie TV Tonight";
+const pageDesc = "Find all movies on TV tonight across Freeview channels including SBS World Movies, 7flix, 9Gem, 10, and ABC. Full schedules and ratings.";
+const keywords = "movies on tv tonight, movies tonight, freeview movies tonight, film on tv tonight, tv movies tonight, sbs world movies guide";
 
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "ItemList",
-  "name": "Movies on TV Tonight in Australia",
+  "name": "Movies on TV Tonight",
   "inLanguage": "en-AU",
   "spatialCoverage": {
     "@type": "Country",
@@ -116,10 +116,10 @@ const jsonLd = {
           <span>{dateLabel}</span>
         </div>
         <h1 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-          Movies on TV <span class="text-amber-400">Tonight</span> in Australia
+          Movies on TV <span class="text-amber-400">Tonight</span>
         </h1>
         <p class="text-base text-slate-400 mt-2 max-w-2xl">
-          Every feature film airing tonight on Australian Freeview television ({moviesTonight.length} movies scheduled).
+          Every feature film airing tonight on Freeview television ({moviesTonight.length} movies scheduled).
         </p>
       </div>
 
