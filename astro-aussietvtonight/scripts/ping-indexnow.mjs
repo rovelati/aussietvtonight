@@ -12,7 +12,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const HOST = 'aussietvtonight.com';
+const HOST = 'www.aussietvtonight.com';
 const SITE_URL = `https://${HOST}`;
 const BING_API_KEY = process.env.BING_API_KEY || '4f25c5dc3491468f8459b92c21bb3ac1';
 
@@ -32,6 +32,8 @@ const ENDPOINTS = [
 // All canonical priority pages (Hubs + Freeview Channels + Info)
 const CANONICAL_PATHS = [
   '/',
+  '/about/',
+  '/contact/',
   '/tomorrow/',
   '/movies-tonight/',
   '/sport-tonight/',
